@@ -1,5 +1,6 @@
-import 'package:presence_app/app/state/initialization/initialization_state.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:presence_app/app/state/initialization/initialization_state.dart';
+import 'package:presence_app/screen/splash/view/splash_screen_view.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class SplashScreen extends HookWidget {
@@ -16,6 +17,6 @@ class SplashScreen extends HookWidget {
       }
     }, [initializationState.isInitialized]);
 
-    return Container();
+    return const SplashScreenView();
   }
 }
