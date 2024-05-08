@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:presence_app/app/state/initialization/initialization_state.dart';
-import 'package:presence_app/screen/splash/view/splash_screen_view.dart';
+import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class SplashScreen extends HookWidget {
@@ -17,6 +17,10 @@ class SplashScreen extends HookWidget {
       }
     }, [initializationState.isInitialized]);
 
-    return const SplashScreenView();
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: AppColors.gradientSecondary,
+      ),
+    );
   }
 }
