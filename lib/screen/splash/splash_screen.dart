@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:presence_app/app/state/initialization/initialization_state.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
+import 'package:presence_app/screen/home/home_screen.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class SplashScreen extends HookWidget {
@@ -11,9 +12,9 @@ class SplashScreen extends HookWidget {
   Widget build(BuildContext context) {
     final initializationState = useProvided<InitializationState>();
 
-    useEffect(() {
+    useEffect(() async {
       if(initializationState.isInitialized) {
-        // TODO Navigate to the next screen
+        await context.navigator.pushNamedAndReset(HomeScreen.route);
       }
     }, [initializationState.isInitialized]);
 

@@ -1,5 +1,5 @@
-import 'package:presence_app/app/app_config.dart';
 import 'package:injector/injector.dart';
+import 'package:presence_app/app/app_config.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class AppInjector {
