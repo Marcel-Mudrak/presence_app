@@ -52,8 +52,8 @@ class AppText {
   );
   static const date = TextStyle(
     fontFamily: 'Poppins',
-    fontWeight: FontWeight.w400,
-    color: AppColors.niceBlue,
+    fontWeight: FontWeight.w300,
+    color: AppColors.niceWhite,
     fontSize: 11,
   );
 

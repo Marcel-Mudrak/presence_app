@@ -1,8 +1,11 @@
+import 'dart:math' as math;
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
-import 'package:presence_app/common/constant/app_images.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 import 'package:presence_app/screen/home/state/home_screen_state.dart';
+import 'package:presence_app/screen/home/widgets/my_app_bar.dart';
+import 'package:presence_app/screen/home/widgets/my_bottom_nav_bar.dart';
 
 class HomeScreenView extends StatelessWidget {
   const HomeScreenView({required this.state});
@@ -23,8 +26,8 @@ class HomeScreenView extends StatelessWidget {
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildAppBar(),
+              children: <Widget>[
+                const MyAppBar(),
                 const SizedBox(height: 16),
                 // TODO localizations
                 const Text('Hello Marcel,', style: AppText.small),
@@ -32,7 +35,7 @@ class HomeScreenView extends StatelessWidget {
                 // Divider(color: AppColors.niceBlue),
                 const SizedBox(height: 18),
                 _buildSubject(
-                  smallTitle: 'Right now you have',
+                  smallTitle: 'Today you have',
                   subject: 'Enterprise Systems',
                   time: '13:00 - 14:30',
                   date: '06.04.2024 - Friday',
@@ -45,12 +48,102 @@ class HomeScreenView extends StatelessWidget {
                   time: '14:45 - 16:15',
                   date: '06.04.2024 - Friday',
                   absences: ['3', '5'],
-                )
+                ),
+                const Divider(
+                  color: AppColors.niceWhite,
+                  thickness: 0,
+                ),
+                const Text(
+                  'Status',
+                  style: AppText.smaller,
+                ),
+                const Text(
+                  'Presence not registered yet.',
+                  style: AppText.secondaryHeader,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Scan the NFC card in your classroom.',
+                  style: AppText.smallest,
+                ),
+                const Spacer(),
+                const SizedBox(height: 8),
+                _buildButtonWithCaption(
+                  buttonCaption: 'Schedule',
+                  caption: 'See the whole schedule.',
+                  icon: Icons.date_range,
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  child: _buildButtonWithCaption(
+                    buttonCaption: 'Absences',
+                    caption: "Check your absences.",
+                    icon: Icons.person_remove,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                _buildButtonWithCaption(
+                  buttonCaption: 'Excused absence',
+                  caption: "If you can't make it.",
+                  icon: Icons.attach_file,
+                  rotate: true,
+                ),
+                const SizedBox(height: 16),
+                const MyBottomNavBar(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Row _buildButtonWithCaption({
+    required String buttonCaption,
+    required String caption,
+    required IconData? icon,
+    bool rotate = false,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(64),
+            color: AppColors.button,
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Text(
+                buttonCaption,
+                style: AppText.smaller,
+              ),
+              const SizedBox(width: 6),
+              if (rotate)
+                Transform.rotate(
+                  angle: math.pi / 4,
+                  child: Icon(
+                    icon,
+                    color: AppColors.niceWhite,
+                  ),
+                )
+              else
+                Icon(
+                  icon,
+                  color: AppColors.niceWhite,
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 12),
+        Text(
+          caption,
+          style: AppText.smaller.copyWith(
+            color: AppColors.niceWhite,
+          ),
+        ),
+      ],
     );
   }
 
@@ -85,43 +178,7 @@ class HomeScreenView extends StatelessWidget {
                 color: AppColors.niceWhite,
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Unexcused absences: ',
-                        style: AppText.smallest,
-                      ),
-                      TextSpan(
-                        text: absences[0],
-                        style: AppText.smallest.copyWith(
-                            fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Total: ',
-                        style: AppText.smallest,
-                      ),
-                      TextSpan(
-                        text: absences[1],
-                        style: AppText.smallest.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            _buildAbsence(absences),
           ],
         ),
         Text(
@@ -132,26 +189,42 @@ class HomeScreenView extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar() {
-    return Row(
+  Column _buildAbsence(List<String> absences) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          AppImages.logo,
-          scale: 10,
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(
+                text: 'Unexcused absences: ',
+                style: AppText.smallest,
+              ),
+              TextSpan(
+                text: absences[0],
+                style: AppText.smallest.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
-        const SizedBox(
-            height: 30,
-            child: VerticalDivider(
-              color: AppColors.niceWhite,
-              width: 15,
-              thickness: 1,
-            )),
-        const Text('Presence App', style: AppText.appBarTitle),
-        const Spacer(),
-        const Icon(
-          Icons.settings,
-          color: AppColors.niceWhite,
-        )
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(
+                text: 'Total: ',
+                style: AppText.smallest,
+              ),
+              TextSpan(
+                text: absences[1],
+                style: AppText.smallest.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

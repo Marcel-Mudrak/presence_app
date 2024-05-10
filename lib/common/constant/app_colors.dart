@@ -6,11 +6,13 @@ class AppColors {
   static const primary = Color(0xFFEE6213);
   static const secondary = Color(0xFFB87953);
 
-  static const niceBlue = Color(0xFFAAC0BC);
+  static const niceBlue = Color(0xFFA2C2C2);
   static const whiteBlue = Color(0xFFBCC8C3);
   static const niceWhite = Color(0xFFF1F1F1);
   static const flatOrange = Color(0xFFFF893F);
+  static const washedFlatOrange = Color(0xFFFF8F4B);
   static const greyBlue = Color(0xFF5B6B69);
+  static const button = Color(0xFF212121);
 
   static const error = Color(0xFFFF2B2B);
   static const textPrimary = Color(0xFF2F353B);
