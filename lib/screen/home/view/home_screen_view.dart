@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 import 'package:presence_app/screen/home/state/home_screen_state.dart';
@@ -33,20 +35,22 @@ class HomeScreenView extends StatelessWidget {
                 const Text('Hello Marcel,', style: AppText.small),
                 const Text('Ready to learn?', style: AppText.secondaryHeader),
                 // Divider(color: AppColors.niceBlue),
+                Text(
+                  DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                  style: AppText.date,
+                ),
                 const SizedBox(height: 18),
                 _buildSubject(
                   smallTitle: 'Today you have',
                   subject: 'Enterprise Systems',
                   time: '13:00 - 14:30',
-                  date: '06.04.2024 - Friday',
                   absences: ['1', '2'],
                 ),
-                const SizedBox(height: 18),
+                const SizedBox(height: 8),
                 _buildSubject(
                   smallTitle: 'Next',
                   subject: 'Data Mining',
                   time: '14:45 - 16:15',
-                  date: '06.04.2024 - Friday',
                   absences: ['3', '5'],
                 ),
                 const Divider(
@@ -63,7 +67,7 @@ class HomeScreenView extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Scan the NFC card in your classroom.',
+                  'Please scan the NFC card in your classroom.',
                   style: AppText.smallest,
                 ),
                 const Spacer(),
@@ -151,7 +155,6 @@ class HomeScreenView extends StatelessWidget {
     required String smallTitle,
     required String subject,
     required String time,
-    required String date,
     required List<String> absences,
   }) {
     return Column(
@@ -180,10 +183,6 @@ class HomeScreenView extends StatelessWidget {
             ),
             _buildAbsence(absences),
           ],
-        ),
-        Text(
-          date,
-          style: AppText.date,
         ),
       ],
     );
