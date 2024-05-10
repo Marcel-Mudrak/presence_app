@@ -1,7 +1,7 @@
 import 'dart:math' as math;
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
@@ -19,7 +19,8 @@ class HomeScreenView extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(gradient: AppColors.gradientSecondary),
+        decoration:
+            const BoxDecoration(gradient: AppColors.gradientSecondary),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 24,
@@ -33,7 +34,8 @@ class HomeScreenView extends StatelessWidget {
                 const SizedBox(height: 16),
                 // TODO localizations
                 const Text('Hello Marcel,', style: AppText.small),
-                const Text('Ready to learn?', style: AppText.secondaryHeader),
+                const Text('Ready to learn?',
+                    style: AppText.secondaryHeader),
                 // Divider(color: AppColors.niceBlue),
                 Text(
                   DateFormat('dd-MM-yyyy').format(DateTime.now()),
@@ -47,11 +49,10 @@ class HomeScreenView extends StatelessWidget {
                   absences: ['1', '2'],
                 ),
                 const SizedBox(height: 8),
-                _buildSubject(
+                _buildNextSubject(
                   smallTitle: 'Next',
                   subject: 'Data Mining',
                   time: '14:45 - 16:15',
-                  absences: ['3', '5'],
                 ),
                 const Divider(
                   color: AppColors.niceWhite,
@@ -70,29 +71,14 @@ class HomeScreenView extends StatelessWidget {
                   'Please scan the NFC card in your classroom.',
                   style: AppText.smallest,
                 ),
-                const Spacer(),
-                const SizedBox(height: 8),
-                _buildButtonWithCaption(
-                  buttonCaption: 'Schedule',
-                  caption: 'See the whole schedule.',
-                  icon: Icons.date_range,
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  child: _buildButtonWithCaption(
-                    buttonCaption: 'Absences',
-                    caption: "Check your absences.",
-                    icon: Icons.person_remove,
-                  ),
-                ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
                 _buildButtonWithCaption(
                   buttonCaption: 'Excused absence',
                   caption: "If you can't make it.",
                   icon: Icons.attach_file,
                   rotate: true,
                 ),
-                const SizedBox(height: 16),
+                const Spacer(),
                 const MyBottomNavBar(),
               ],
             ),
@@ -140,13 +126,6 @@ class HomeScreenView extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
-        Text(
-          caption,
-          style: AppText.smaller.copyWith(
-            color: AppColors.niceWhite,
-          ),
-        ),
       ],
     );
   }
@@ -182,6 +161,35 @@ class HomeScreenView extends StatelessWidget {
               ),
             ),
             _buildAbsence(absences),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Column _buildNextSubject({
+    required String smallTitle,
+    required String subject,
+    required String time,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          smallTitle,
+          style: AppText.smallest,
+        ),
+        Text(
+          subject,
+          style: AppText.secondaryHeader,
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Text(
+              time,
+              style: AppText.smaller,
+            ),
           ],
         ),
       ],

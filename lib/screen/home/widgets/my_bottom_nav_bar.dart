@@ -13,31 +13,34 @@ class MyBottomNavBar extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(64),
-        color: AppColors.washedFlatOrange.withAlpha(220),
+        color: AppColors.button,
       ),
-      child: const GNav(
-        iconSize: 20,
-        color: AppColors.niceWhite,
-        activeColor: AppColors.niceWhite,
-        selectedIndex: 1,
-        textStyle: AppText.smaller,
-        gap: 8,
-        tabBackgroundColor: AppColors.button,
-        padding: EdgeInsets.all(20),
-        tabs: [
-          GButton(
-            icon: Icons.person,
-            text: 'Profile',
-          ),
-          GButton(
-            icon: Icons.home,
-            text: 'Home',
-          ),
-          GButton(
-            icon: Icons.settings,
-            text: 'Settings',
-          ),
-        ],
+      child: const Padding(
+        padding: EdgeInsets.all(6),
+        child: GNav(
+          iconSize: 20,
+          color: AppColors.niceWhite,
+          activeColor: AppColors.niceWhite,
+          selectedIndex: 1,
+          textStyle: AppText.smaller,
+          gap: 8,
+          tabBackgroundColor: AppColors.washedFlatOrange,
+          padding: EdgeInsets.all(20),
+          tabs: [
+            GButton(
+              icon: Icons.person,
+              text: 'Profile',
+            ),
+            GButton(
+              icon: Icons.home,
+              text: 'Home',
+            ),
+            GButton(
+              icon: Icons.settings,
+              text: 'Settings',
+            ),
+          ],
+        ),
       ),
     );
   }
