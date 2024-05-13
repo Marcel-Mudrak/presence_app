@@ -3,10 +3,8 @@ import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_images.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 
-class MyAppBar extends StatelessWidget {
-  const MyAppBar({
-    super.key,
-  });
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
