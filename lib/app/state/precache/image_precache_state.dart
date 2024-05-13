@@ -1,5 +1,5 @@
-import 'package:presence_app/common/constant/app_images.dart';
 import 'package:flutter/widgets.dart';
+import 'package:presence_app/common/constant/app_images.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class ImagePrecacheState extends HasInitialized {

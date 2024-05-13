@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/widget/field/app_field_layout.dart';
 import 'package:presence_app/common/widget/field/app_field_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class AppTextField extends HookWidget {
@@ -33,7 +33,7 @@ class AppTextField extends HookWidget {
   Widget build(BuildContext context) {
     final theme = this.theme ?? AppFieldTheme.of(context);
     final focusNode = useMemoized(FocusNode.new);
-    return StatelessTextEditingControllerWrapper(
+    return TextEditingControllerWrapper(
       text: state,
       builder: (controller) => AppFieldLayout(
         theme: theme,

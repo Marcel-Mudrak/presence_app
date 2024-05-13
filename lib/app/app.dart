@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:injector/injector.dart';
 import 'package:presence_app/app/app_injector.dart';
 import 'package:presence_app/app/app_localizations.dart';
 import 'package:presence_app/app/app_reporter.dart';
@@ -8,9 +11,6 @@ import 'package:presence_app/app/state/precache/image_precache_state.dart';
 import 'package:presence_app/app/widget/app_global_error_dialog.dart';
 import 'package:presence_app/common/constant/app_theme.dart';
 import 'package:presence_app/util/hook/use_async_stream_subscription.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:injector/injector.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 typedef NavigatorKey = GlobalKey<NavigatorState>;
