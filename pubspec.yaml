@@ -1,4 +1,4 @@
-name: presence_app # TODO change package name
+name: presence_app
 publish_to: 'none'
 
 version: 0.0.1

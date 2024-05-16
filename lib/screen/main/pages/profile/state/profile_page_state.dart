@@ -1,18 +1,18 @@
 import 'package:utopia_arch/utopia_arch.dart';
 
-class HomeScreenState {
-  const HomeScreenState({
+class ProfileScreenState {
+  const ProfileScreenState({
     required this.counterValue,
   });
 
   final int counterValue;
 }
 
-HomeScreenState useHomeScreenState() {
+ProfileScreenState useProfileScreenState() {
   // TODO
   final counterValue = useState<int>(0);
 
-  return HomeScreenState(
+  return ProfileScreenState(
     counterValue: counterValue.value,
   );
 }

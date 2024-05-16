@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
-import 'package:presence_app/screen/home/widgets/absence_item.dart';
+import 'package:presence_app/screen/main/pages/home/widgets/absence_item.dart';
 
 class SubjectItem extends StatelessWidget {
   const SubjectItem({
