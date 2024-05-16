@@ -3,14 +3,14 @@ import 'package:presence_app/screen/main/pages/profile/state/profile_page_state.
 import 'package:presence_app/screen/main/pages/profile/view/profile_page_view.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
-class ProfileScreen extends HookWidget {
-  static const route = '/profile';
-  static final routeConfig = RouteConfig.material(ProfileScreen._);
+class ProfilePage extends HookWidget {
+  // static const route = '/profile';
+  // static final routeConfig = RouteConfig.material(ProfilePage._);
 
-  const ProfileScreen._();
+  const ProfilePage();
   @override
   Widget build(BuildContext context) {
     final state = useProfileScreenState();
-    return ProfileScreenView(state: state);
+    return ProfilePageView(state: state);
   }
 }

@@ -7,10 +7,10 @@ import 'package:presence_app/screen/main/pages/home/state/home_page_state.dart';
 import 'package:presence_app/screen/main/pages/home/widgets/custom_app_bar.dart';
 import 'package:presence_app/screen/main/pages/home/widgets/subject_item.dart';
 
-class HomeScreenView extends StatelessWidget {
-  const HomeScreenView({required this.state});
+class HomePageView extends StatelessWidget {
+  const HomePageView({required this.state});
 
-  final HomeScreenState state;
+  final HomePageState state;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class HomeScreenView extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(64),
-            color: AppColors.button,
+            color: AppColors.button.withAlpha(196),
           ),
           padding: const EdgeInsets.all(12),
           child: Row(

@@ -1,16 +1,16 @@
 import 'package:utopia_arch/utopia_arch.dart';
 
-class HomeScreenState {
-  const HomeScreenState({required this.counterValue});
+class HomePageState {
+  const HomePageState({required this.counterValue});
 
   final int counterValue;
 }
 
-HomeScreenState useHomeScreenState({required void Function() moveToProfile}) {
+HomePageState useHomeScreenState() {
   // TODO
   final counter = useState<int>(0);
 
-  return HomeScreenState(
+  return HomePageState(
     counterValue: counter.value,
   );
 }

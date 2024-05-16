@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
-import 'package:presence_app/screen/main/pages/profile/profile_page_screen.dart';
-import 'package:utopia_arch/utopia_arch.dart';
+import 'package:presence_app/screen/main/state/main_screen_state.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
-  const CustomBottomNavBar({super.key});
+  const CustomBottomNavBar({required this.state});
+
+  final MainScreenState state;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +24,9 @@ class CustomBottomNavBar extends StatelessWidget {
         tabBackgroundColor: AppColors.washedFlatOrange,
         padding: const EdgeInsets.all(20),
         onTabChange: (index) async {
-          if (index == 0) {
-            await context.navigator.pushNamedAndReset(ProfileScreen.route);
-          } else if (index == 1) {
-            await context.navigator.pushNamedAndReset(ProfileScreen.route);
-          } else if (index == 2) {
-            print("TODO");
-          }
+          if (index == 0) state.onPageChanged(MainPage.profile);
+          if (index == 1) state.onPageChanged(MainPage.home);
+          // if (index == 2) state.onPageChanged(MainPage.settings);
         },
         tabs: const [
           GButton(
