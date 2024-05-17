@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 import 'package:presence_app/screen/main/pages/profile/state/profile_page_state.dart';
+import 'package:utopia_arch/utopia_arch.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({required this.state});
@@ -17,7 +19,7 @@ class ProfilePageView extends StatelessWidget {
           children: [
             Text(
               'Marcel Mudrak',
-              style: AppText.mainHeader,
+              style: AppText.secondaryHeader,
             ),
             Spacer(),
             // TODO Profile image instead of icon
@@ -47,7 +49,49 @@ class ProfilePageView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const Divider(color: AppColors.niceWhite),
+        const Divider(),
+        const Text(
+          'Recent',
+          style: AppText.mainHeader,
+        ),
+        const SizedBox(height: 8),
+        Expanded(
+          child: ListView(
+            children: <Widget>[
+              _buildPresenceItem(),
+              _buildPresenceItem(),
+              _buildPresenceItem(),
+              _buildPresenceItem(),
+              _buildPresenceItem(),
+              _buildPresenceItem(),
+              _buildPresenceItem(),
+              _buildPresenceItem(),
+            ].separatedWith(
+              const SizedBox(height: 8),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Column _buildPresenceItem() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '15-05-2024',
+          style: AppText.date,
+        ),
+        Text(
+          'Information System Security',
+          style: AppText.secondaryHeader,
+        ),
+        SizedBox(height: 4),
+        Text(
+          '08:00 - 09:30',
+          style: AppText.smaller,
+        )
       ],
     );
   }
