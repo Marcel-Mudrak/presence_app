@@ -14,8 +14,8 @@ class MainScreenView extends StatelessWidget {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(
-          left: 24,
-          right: 24,
+          left: 20,
+          right: 20,
           top: 16,
         ),
         width: double.infinity,

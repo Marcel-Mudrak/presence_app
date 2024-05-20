@@ -2,17 +2,17 @@ import 'package:utopia_arch/utopia_arch.dart';
 
 class ProfilePageState {
   const ProfilePageState({
-    required this.counterValue,
+    required this.searchFieldState,
   });
 
-  final int counterValue;
+  final FieldState searchFieldState;
 }
 
-ProfilePageState useProfileScreenState() {
-  // TODO
-  final counterValue = useState<int>(0);
+ProfilePageState useProfilePageState() {
+  final searchFieldState = useFieldState();
+  useEffect(() {}, [searchFieldState.value]);
 
   return ProfilePageState(
-    counterValue: counterValue.value,
+    searchFieldState: searchFieldState,
   );
 }

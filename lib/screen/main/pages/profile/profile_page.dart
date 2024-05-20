@@ -4,13 +4,11 @@ import 'package:presence_app/screen/main/pages/profile/view/profile_page_view.da
 import 'package:utopia_arch/utopia_arch.dart';
 
 class ProfilePage extends HookWidget {
-  // static const route = '/profile';
-  // static final routeConfig = RouteConfig.material(ProfilePage._);
 
   const ProfilePage();
   @override
   Widget build(BuildContext context) {
-    final state = useProfileScreenState();
+    final state = useProfilePageState();
     return ProfilePageView(state: state);
   }
 }

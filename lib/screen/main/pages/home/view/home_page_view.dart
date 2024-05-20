@@ -1,11 +1,12 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 import 'package:presence_app/screen/main/pages/home/state/home_page_state.dart';
-import 'package:presence_app/screen/main/pages/home/widgets/custom_app_bar.dart';
 import 'package:presence_app/screen/main/pages/home/widgets/subject_item.dart';
+import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
 
 class HomePageView extends StatelessWidget {
   const HomePageView({required this.state});
@@ -17,7 +18,10 @@ class HomePageView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const CustomAppBar(),
+        const CustomAppBar(
+          pageName: 'Presence App',
+          icon: Icons.language,
+        ),
         const SizedBox(height: 16),
         // TODO localizations
         const Text(
@@ -90,7 +94,7 @@ class HomePageView extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(64),
-            color: AppColors.button.withAlpha(196),
+            color: AppColors.button.withAlpha(164),
           ),
           padding: const EdgeInsets.all(12),
           child: Row(

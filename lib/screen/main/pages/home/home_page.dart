@@ -11,7 +11,7 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useHomeScreenState();
+    final state = useHomePageState();
     return HomePageView(state: state);
   }
 }

@@ -22,6 +22,15 @@ class AppText {
     height: 1,
   );
 
+  static const smallHeader = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w400,
+    color: AppColors.niceWhite,
+    letterSpacing: -2,
+    fontSize: 22,
+    height: 1,
+  );
+
   static const small = TextStyle(
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w300,
@@ -64,9 +73,19 @@ class AppText {
     fontSize: 28,
   );
 
-  static const input = TextStyle();
+  static const input = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+    color: AppColors.niceWhite,
+    fontSize: 16,
+  );
 
   static const inputLabel = TextStyle();
 
-  static final inputHint = input.copyWith(color: AppColors.textSecondary);
+  static final inputHint = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+    color: AppColors.niceWhite.withAlpha(128),
+    fontSize: 16,
+  );
 }

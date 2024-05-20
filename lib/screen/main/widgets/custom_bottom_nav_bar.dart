@@ -12,33 +12,43 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       color: AppColors.button,
       child: GNav(
-        iconSize: 20,
+        iconSize: 28,
         color: AppColors.niceWhite,
-        activeColor: AppColors.niceWhite,
+        activeColor: AppColors.button,
         selectedIndex: 1,
-        textStyle: AppText.smaller,
+        textStyle: AppText.smaller.copyWith(
+          color: AppColors.button,
+          fontWeight: FontWeight.w400,
+        ),
+        tabBackgroundColor: AppColors.niceWhite,
+        tabBorderRadius: 16,
         gap: 8,
-        tabBackgroundColor: AppColors.washedFlatOrange,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(14),
         onTabChange: (index) async {
           if (index == 0) state.onPageChanged(MainPage.profile);
           if (index == 1) state.onPageChanged(MainPage.home);
-          // if (index == 2) state.onPageChanged(MainPage.settings);
+          if (index == 2) state.onPageChanged(MainPage.settings);
         },
-        tabs: const [
+        tabs: [
           GButton(
-            icon: Icons.person,
+            icon: state.currentPage == MainPage.profile
+                ? Icons.person
+                : Icons.person_outline,
             text: 'Profile',
           ),
           GButton(
-            icon: Icons.home,
+            icon: state.currentPage == MainPage.home
+                ? Icons.home
+                : Icons.home_outlined,
             text: 'Home',
           ),
           GButton(
-            icon: Icons.settings,
+            icon: state.currentPage == MainPage.settings
+                ? Icons.settings
+                : Icons.settings_outlined,
             text: 'Settings',
           ),
         ],
