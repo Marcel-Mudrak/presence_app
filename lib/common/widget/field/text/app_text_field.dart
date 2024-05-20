@@ -46,6 +46,8 @@ class AppTextField extends HookWidget {
         prefix: prefix,
         suffix: suffix ?? obscuredState?.value.let(_buildObscuredSuffix),
         child: TextField(
+          cursorColor: AppColors.niceWhite.withAlpha(128),
+          enableSuggestions: false,
           controller: controller,
           decoration: null,
           keyboardType: keyboardType,

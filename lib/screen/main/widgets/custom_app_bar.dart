@@ -4,7 +4,13 @@ import 'package:presence_app/common/constant/app_images.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+  const CustomAppBar({
+    required this.pageName,
+    required this.icon,
+  });
+
+  final String pageName;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +28,11 @@ class CustomAppBar extends StatelessWidget {
             thickness: 1,
           ),
         ),
-        const Text('Presence App', style: AppText.appBarTitle),
+        Text(pageName, style: AppText.appBarTitle),
         const Spacer(),
-        const Icon(
-          Icons.language,
+        Icon(
+          icon,
+          size: 28,
           color: AppColors.niceWhite,
         )
       ],

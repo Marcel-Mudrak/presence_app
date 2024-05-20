@@ -40,9 +40,9 @@ class AppFieldThemeData {
     labelStyle: AppText.inputLabel,
     errorStyle: AppText.inputLabel.copyWith(color: AppColors.error),
     hintStyle: AppText.inputHint,
-    decoration: const BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
-      color: Colors.white,
+    decoration: BoxDecoration(
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      color: AppColors.button.withAlpha(128),
     ),
     textPadding: const EdgeInsets.all(16),
   );
@@ -56,7 +56,7 @@ class AppFieldTheme extends StatelessWidget {
 
   AppFieldTheme({super.key, required this.child, required AppFieldThemeData theme}) : transform = ((_) => theme);
 
-  static AppFieldThemeData of(BuildContext context) => context.getOrNull() ?? AppFieldThemeData.standard;
+  static AppFieldThemeData of(BuildContext context) => AppFieldThemeData.standard;
 
   @override
   Widget build(BuildContext context) => ValueProvider(transform(of(context)), child: child);
