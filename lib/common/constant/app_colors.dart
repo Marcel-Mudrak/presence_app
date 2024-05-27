@@ -20,9 +20,8 @@ class AppColors {
 
   static const gradientPrimary = LinearGradient(
     colors: [
-      primary,
-      flatOrange,
-      secondary,
+      greyBlue,
+      button,
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

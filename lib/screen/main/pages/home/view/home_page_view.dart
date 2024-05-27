@@ -98,14 +98,14 @@ class AbsenceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 0.85;
+    final height = MediaQuery.of(context).size.height * 0.4;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () async {
-            await buildShowModalBottomSheet(context, height);
+            await _buildShowModalBottomSheet(context, height);
           },
           child: Container(
             decoration: BoxDecoration(
@@ -135,38 +135,45 @@ class AbsenceButton extends StatelessWidget {
     );
   }
 
-  Future<dynamic> buildShowModalBottomSheet(
+  Future<dynamic> _buildShowModalBottomSheet(
       BuildContext context, double height) {
     return showModalBottomSheet(
       isScrollControlled: true,
-      backgroundColor: AppColors.button.withAlpha(230),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(32),
-          topRight: Radius.circular(32),
-        ),
-      ),
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
         return SizedBox(
           height: height,
           width: double.infinity,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: SizedBox(
-                  width: 70,
-                  height: 6,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: AppColors.niceWhite,
-                      borderRadius: BorderRadius.circular(32),
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: AppColors.gradientPrimary,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: SizedBox(
+                    width: 70,
+                    height: 4,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppColors.niceWhite,
+                        borderRadius: BorderRadius.circular(32),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                const Text(
+                  'Message',
+                  style: AppText.secondaryHeader,
+                ),
+              ],
+            ),
           ),
         );
       },
