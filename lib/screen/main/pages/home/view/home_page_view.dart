@@ -70,7 +70,7 @@ class HomePageView extends StatelessWidget {
           style: AppText.smallest,
         ),
         const SizedBox(height: 16),
-        _buildButton(
+        const AbsenceButton(
           buttonCaption: 'Excused absence',
           caption: "If you can't make it.",
           icon: Icons.attach_file,
@@ -80,41 +80,103 @@ class HomePageView extends StatelessWidget {
       ],
     );
   }
+}
 
-  // TODO
-  Row _buildButton({
-    required String buttonCaption,
-    required String caption,
-    required IconData? icon,
-    bool shouldRotate = false,
-  }) {
+class AbsenceButton extends StatelessWidget {
+  const AbsenceButton({
+    super.key,
+    required this.buttonCaption,
+    required this.caption,
+    required this.icon,
+    required this.shouldRotate,
+  });
+
+  final String buttonCaption;
+  final String caption;
+  final IconData? icon;
+  final bool shouldRotate;
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 0.4;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(64),
-            color: AppColors.button.withAlpha(164),
-          ),
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Text(
-                buttonCaption,
-                style: AppText.smaller,
-              ),
-              const SizedBox(width: 6),
-              Transform.rotate(
-                angle: shouldRotate ? math.pi / 4 : 0,
-                child: Icon(
-                  icon,
-                  color: AppColors.niceWhite,
+        GestureDetector(
+          onTap: () async {
+            await _buildShowModalBottomSheet(context, height);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(64),
+              color: AppColors.button.withAlpha(164),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Text(
+                  buttonCaption,
+                  style: AppText.smaller,
                 ),
-              )
-            ],
+                const SizedBox(width: 6),
+                Transform.rotate(
+                  angle: shouldRotate ? math.pi / 4 : 0,
+                  child: Icon(
+                    icon,
+                    color: AppColors.niceWhite,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Future<dynamic> _buildShowModalBottomSheet(
+      BuildContext context, double height) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: height,
+          width: double.infinity,
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: AppColors.gradientPrimary,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: SizedBox(
+                    width: 70,
+                    height: 4,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppColors.niceWhite,
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Message',
+                  style: AppText.secondaryHeader,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

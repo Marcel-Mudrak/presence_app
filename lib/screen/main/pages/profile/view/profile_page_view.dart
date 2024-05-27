@@ -99,16 +99,16 @@ class ProfilePageView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '15-05-2024',
           style: AppText.date,
         ),
         Text(
-          'Information System Security  ' + index,
+          'Information System Security  $index',
           style: AppText.smallHeader,
         ),
-        SizedBox(height: 4),
-        Text(
+        const SizedBox(height: 4),
+        const Text(
           '08:00 - 09:30',
           style: AppText.smaller,
         )
