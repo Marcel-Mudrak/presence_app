@@ -20,6 +20,16 @@ class ProfilePageView extends StatelessWidget {
           icon: Icons.person,
         ),
         const SizedBox(height: 16),
+        const Text(
+          'Computer Science',
+          style: AppText.smallHeader,
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'ZIIAS1-3611',
+          style: AppText.small,
+        ),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
