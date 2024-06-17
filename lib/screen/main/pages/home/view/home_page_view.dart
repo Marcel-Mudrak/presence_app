@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
+import 'package:presence_app/common/widget/field/text/app_text_field.dart';
 import 'package:presence_app/screen/main/pages/home/state/home_page_state.dart';
 import 'package:presence_app/screen/main/pages/home/widgets/subject_item.dart';
 import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
@@ -70,11 +71,12 @@ class HomePageView extends StatelessWidget {
           style: AppText.smallest,
         ),
         const SizedBox(height: 16),
-        const AbsenceButton(
+        AbsenceButton(
           buttonCaption: 'Excused absence',
           caption: "If you can't make it.",
           icon: Icons.attach_file,
           shouldRotate: true,
+          state: state,
         ),
         const Spacer(),
       ],
@@ -89,12 +91,14 @@ class AbsenceButton extends StatelessWidget {
     required this.caption,
     required this.icon,
     required this.shouldRotate,
+    required this.state,
   });
 
   final String buttonCaption;
   final String caption;
   final IconData? icon;
   final bool shouldRotate;
+  final HomePageState state;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +113,7 @@ class AbsenceButton extends StatelessWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(64),
+              borderRadius: BorderRadius.circular(16),
               color: AppColors.button.withAlpha(164),
             ),
             padding: const EdgeInsets.all(12),
@@ -168,9 +172,69 @@ class AbsenceButton extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 8),
                 const Text(
-                  'Message',
+                  "You can't make it?",
                   style: AppText.secondaryHeader,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.button.withAlpha(128),
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.upload,
+                          color: AppColors.niceWhite,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          'Upload document',
+                          style: AppText.smaller,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: AppTextField(
+                    state: state.searchFieldState,
+                    hint: const Row(
+                      children: [
+                        SizedBox(width: 2),
+                        Text('Message'),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: AppColors.button.withAlpha(128),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.send,
+                        color: AppColors.niceWhite,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        'Send',
+                        style: AppText.smaller,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

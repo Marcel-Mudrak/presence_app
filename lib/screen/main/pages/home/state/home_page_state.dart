@@ -1,16 +1,16 @@
 import 'package:utopia_arch/utopia_arch.dart';
 
 class HomePageState {
-  const HomePageState({required this.counterValue});
+  const HomePageState({required this.searchFieldState});
 
-  final int counterValue;
+  final FieldState searchFieldState;
 }
 
 HomePageState useHomePageState() {
-  // TODO
-  final counter = useState<int>(0);
+  final searchFieldState = useFieldState();
+  useEffect(() {}, [searchFieldState.value]);
 
   return HomePageState(
-    counterValue: counter.value,
+    searchFieldState: searchFieldState,
   );
 }
