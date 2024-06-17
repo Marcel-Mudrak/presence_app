@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
@@ -109,7 +110,7 @@ class AbsenceButton extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () async {
-            await _buildShowModalBottomSheet(context, height);
+            await _buildModalBottomSheet(context, height);
           },
           child: Container(
             decoration: BoxDecoration(
@@ -139,15 +140,18 @@ class AbsenceButton extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _buildShowModalBottomSheet(
+  Future<dynamic> _buildModalBottomSheet(
       BuildContext context, double height) {
     return showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return SizedBox(
-          height: height,
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.decelerate,
+          height: MediaQuery.of(context).size.height / 2 +
+              MediaQuery.of(context).viewInsets.bottom,
           width: double.infinity,
           child: DecoratedBox(
             decoration: const BoxDecoration(
@@ -157,64 +161,38 @@ class AbsenceButton extends StatelessWidget {
                 topRight: Radius.circular(32),
               ),
             ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: SizedBox(
-                    width: 70,
-                    height: 4,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: AppColors.niceWhite,
-                        borderRadius: BorderRadius.circular(32),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  "You can't make it?",
-                  style: AppText.secondaryHeader,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
+            child: _buildBottomModalContent(),
+          ),
+        );
+      },
+    );
+  }
+
+  Column _buildBottomModalContent() {
+    return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: SizedBox(
+                  width: 70,
+                  height: 4,
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: AppColors.button.withAlpha(128),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.upload,
-                          color: AppColors.niceWhite,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          'Upload document',
-                          style: AppText.smaller,
-                        ),
-                      ],
+                      color: AppColors.niceWhite,
+                      borderRadius: BorderRadius.circular(32),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: AppTextField(
-                    state: state.searchFieldState,
-                    hint: const Row(
-                      children: [
-                        SizedBox(width: 2),
-                        Text('Message'),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                "You can't make it?",
+                style: AppText.secondaryHeader,
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: AppColors.button.withAlpha(128),
@@ -225,22 +203,61 @@ class AbsenceButton extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        Icons.send,
+                        Icons.upload,
                         color: AppColors.niceWhite,
                       ),
                       SizedBox(width: 4),
                       Text(
-                        'Send',
+                        'Upload document',
                         style: AppText.smaller,
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Include a short message',
+                style: AppText.small,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: AppTextField(
+                  state: state.searchFieldState,
+                  maxLines: 3,
+                  hint: const Row(
+                    children: [
+                      SizedBox(width: 2),
+                      Text('Type here...'),
+                    ],
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.button.withAlpha(128),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.send,
+                      color: AppColors.niceWhite,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Send',
+                      style: AppText.smaller,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          );
   }
 }
