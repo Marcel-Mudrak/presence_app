@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
@@ -140,11 +139,11 @@ class AbsenceButton extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _buildModalBottomSheet(
-      BuildContext context, double height) {
+  Future<dynamic> _buildModalBottomSheet(BuildContext context, double height) {
     return showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha(196),
       context: context,
       builder: (context) {
         return AnimatedContainer(
@@ -170,94 +169,94 @@ class AbsenceButton extends StatelessWidget {
 
   Column _buildBottomModalContent() {
     return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: SizedBox(
+            width: 70,
+            height: 4,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.niceWhite,
+                borderRadius: BorderRadius.circular(32),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          "You can't make it?",
+          style: AppText.secondaryHeader,
+        ),
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: AppColors.button.withAlpha(128),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.upload,
+                  color: AppColors.niceWhite,
+                ),
+                SizedBox(width: 4),
+                Text(
+                  'Upload document',
+                  style: AppText.smaller,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Include a short message',
+          style: AppText.small,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: AppTextField(
+            state: state.searchFieldState,
+            maxLines: 3,
+            hint: const Row(
+              children: [
+                SizedBox(width: 2),
+                Text('Type here...'),
+              ],
+            ),
+          ),
+        ),
+        const Spacer(),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: AppColors.button.withAlpha(128),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: SizedBox(
-                  width: 70,
-                  height: 4,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: AppColors.niceWhite,
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                  ),
-                ),
+              Icon(
+                Icons.send,
+                color: AppColors.niceWhite,
               ),
-              const SizedBox(height: 8),
-              const Text(
-                "You can't make it?",
-                style: AppText.secondaryHeader,
+              SizedBox(width: 8),
+              Text(
+                'Send',
+                style: AppText.smaller,
               ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColors.button.withAlpha(128),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.upload,
-                        color: AppColors.niceWhite,
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        'Upload document',
-                        style: AppText.smaller,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Include a short message',
-                style: AppText.small,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: AppTextField(
-                  state: state.searchFieldState,
-                  maxLines: 3,
-                  hint: const Row(
-                    children: [
-                      SizedBox(width: 2),
-                      Text('Type here...'),
-                    ],
-                  ),
-                ),
-              ),
-              const Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: AppColors.button.withAlpha(128),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.send,
-                      color: AppColors.niceWhite,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      'Send',
-                      style: AppText.smaller,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
             ],
-          );
+          ),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
   }
 }
