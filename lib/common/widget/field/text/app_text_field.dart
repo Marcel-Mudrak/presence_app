@@ -14,6 +14,7 @@ class AppTextField extends HookWidget {
   final AppFieldThemeData? theme;
   final List<TextInputFormatter> formatters;
   final bool required;
+  final int maxLines;
 
   const AppTextField({
     super.key,
@@ -27,6 +28,7 @@ class AppTextField extends HookWidget {
     this.theme,
     this.formatters = const [],
     this.required = false,
+    this.maxLines = 1,
   });
 
   @override
@@ -56,6 +58,7 @@ class AppTextField extends HookWidget {
           onTapOutside: (_) => focusNode.unfocus(),
           style: theme.style,
           inputFormatters: formatters,
+          maxLines: maxLines,
         ),
       ),
     );
