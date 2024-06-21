@@ -56,14 +56,6 @@ class ProfilePageView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text('Recent Subjects', style: AppText.secondaryHeader),
-                    Spacer(),
-                    Text('Filters', style: AppText.smaller),
-                    SizedBox(width: 4),
-                    Icon(
-                      Icons.filter_list,
-                      color: AppColors.niceWhite,
-                      size: 24,
-                    ),
                   ],
                 ),
               ),
@@ -78,6 +70,19 @@ class ProfilePageView extends StatelessWidget {
                     const Text('Search'),
                   ],
                 ),
+                suffix: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () async {
+                    await _buildBottomModal(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Icon(
+                      Icons.tune,
+                      color: AppColors.niceWhite.withAlpha(196),
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
               _buildSubjectItemList(),
@@ -85,6 +90,33 @@ class ProfilePageView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Future<dynamic> _buildBottomModal(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha(196),
+      context: context,
+      builder: _buildBottomModalContent,
+    );
+  }
+
+  SizedBox _buildBottomModalContent(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 2 +
+          MediaQuery.of(context).viewInsets.bottom,
+      width: double.infinity,
+      child: const DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: AppColors.gradientPrimary,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(32),
+            topRight: Radius.circular(32),
+          ),
+        ),
+      ),
     );
   }
 
