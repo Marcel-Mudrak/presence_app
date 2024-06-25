@@ -6,8 +6,8 @@ import 'package:presence_app/common/constant/app_text.dart';
 import 'package:presence_app/common/widget/field/text/app_text_field.dart';
 import 'package:presence_app/screen/main/pages/home/state/home_page_state.dart';
 
-class HomeBottomModal extends StatelessWidget {
-  const HomeBottomModal({
+class HomeAbsenceBottomModal extends StatelessWidget {
+  const HomeAbsenceBottomModal({
     super.key,
     required this.state,
     required this.buttonCaption,

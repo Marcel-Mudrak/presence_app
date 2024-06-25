@@ -7,4 +7,8 @@ extension DateExtensions on DateTime {
     final dateFormat = DateFormat("dd.MM.yyyy", 'pl');
     return dateFormat.format(this);
   }
+
+  DateTime get _now => DateTime.now();
+  bool get isToday =>
+      year == _now.year && month == _now.month && day == _now.day;
 }

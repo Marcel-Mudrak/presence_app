@@ -6,6 +6,7 @@ import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/screen/main/pages/profile/state/profile_page_state.dart';
 import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
 import 'package:presence_app/util/extension/date_extensions.dart';
+import 'package:presence_app/util/extension/string_extensions.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({required this.state});
@@ -57,21 +58,20 @@ class ProfilePageView extends StatelessWidget {
                 padding: EdgeInsets.all(4),
                 child: Row(
                   children: [
-                    Text('Recent Subjects', style: AppText.secondaryHeader),
+                    Text('Upcoming Subjects', style: AppText.secondaryHeader),
                   ],
                 ),
               ),
               AppTextField(
                 state: state.searchFieldState,
-                hint: Row(
-                  children: [
-                    const SizedBox(width: 2),
-                    Icon(Icons.search,
-                        color: AppColors.niceWhite.withAlpha(128)),
-                    const SizedBox(width: 4),
-                    const Text('Search'),
-                  ],
+                prefix: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Icon(
+                    Icons.search,
+                    color: AppColors.niceWhite.withAlpha(128),
+                  ),
                 ),
+                hint: const Text('Search'),
                 suffix: GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () async {
@@ -141,8 +141,10 @@ class ProfilePageView extends StatelessWidget {
     );
   }
 
-  Widget _buildPresenceItem(
-      {required int index, required List<Subject> subjects}) {
+  Widget _buildPresenceItem({
+    required int index,
+    required List<Subject> subjects,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -154,7 +156,11 @@ class ProfilePageView extends StatelessWidget {
           subjects[index].courseName,
           style: AppText.smallHeader,
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 2),
+        Text(
+          subjects[index].courseType.capitalize(),
+          style: AppText.smallerHeader,
+        ),
         Text(
           subjects[index].day,
           style: AppText.smaller,

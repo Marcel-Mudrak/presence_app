@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:presence_app/screen/main/pages/home/state/home_page_state.dart';
-import 'package:presence_app/screen/main/pages/home/widgets/home_bottom_modal.dart';
+import 'package:presence_app/screen/main/pages/home/widgets/home_absence_bottom_modal.dart';
 
 class AbsenceButton extends StatelessWidget {
   const AbsenceButton({
@@ -23,7 +23,7 @@ class AbsenceButton extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        HomeBottomModal(
+        HomeAbsenceBottomModal(
           state: state,
           buttonCaption: buttonCaption,
           shouldRotate: shouldRotate,

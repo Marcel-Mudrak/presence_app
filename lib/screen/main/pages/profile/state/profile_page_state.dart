@@ -24,6 +24,10 @@ ProfilePageState useProfilePageState() {
   return ProfilePageState(
     searchFieldState: searchFieldState,
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
-    todayClasses: scheduleState.subjectsWithPeriodList[1].subjects.reversed.toList(),
+    todayClasses: scheduleState.subjectsWithPeriodList[0].subjects
+        .where(
+          (element) => element.date.compareTo(DateTime.now()) > 0,
+        )
+        .toList(),
   );
 }
