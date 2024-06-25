@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 import 'package:presence_app/common/widget/field/text/app_text_field.dart';
+import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/screen/main/pages/profile/state/profile_page_state.dart';
 import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
+import 'package:presence_app/util/extension/date_extensions.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({required this.state});
@@ -85,7 +87,7 @@ class ProfilePageView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              _buildSubjectItemList(),
+              _buildSubjectItemList(state),
             ],
           ),
         ),
@@ -120,7 +122,7 @@ class ProfilePageView extends StatelessWidget {
     );
   }
 
-  Expanded _buildSubjectItemList() {
+  Expanded _buildSubjectItemList(ProfilePageState state) {
     return Expanded(
       child: RawScrollbar(
         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -128,30 +130,33 @@ class ProfilePageView extends StatelessWidget {
         thickness: 4,
         radius: const Radius.circular(64),
         child: ListView.separated(
-          itemCount: 16,
-          itemBuilder: (context, index) =>
-              _buildPresenceItem(index: index.toString()),
+          itemCount: state.todayClasses.length,
+          itemBuilder: (context, index) => _buildPresenceItem(
+            index: index,
+            subjects: state.todayClasses,
+          ),
           separatorBuilder: (context, index) => const SizedBox(height: 8),
         ),
       ),
     );
   }
 
-  Widget _buildPresenceItem({required String index}) {
+  Widget _buildPresenceItem(
+      {required int index, required List<Subject> subjects}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          '15-05-2024',
+        Text(
+          subjects[index].date.toDisplayString(),
           style: AppText.date,
         ),
         Text(
-          'Information System Security  $index',
+          subjects[index].courseName,
           style: AppText.smallHeader,
         ),
         const SizedBox(height: 4),
-        const Text(
-          '08:00 - 09:30',
+        Text(
+          subjects[index].day,
           style: AppText.smaller,
         )
       ],

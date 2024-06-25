@@ -14,10 +14,10 @@ class HomePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildHomeContent();
+    return _buildHomeContent(state);
   }
 
-  Column _buildHomeContent() {
+  Column _buildHomeContent(HomePageState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -41,17 +41,17 @@ class HomePageView extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         // TODO
-        const SubjectItem(
+        SubjectItem(
           smallTitle: 'Today you have',
-          subject: 'Enterprise Systems',
-          time: '13:00 - 14:30',
-          absences: ['1', '2'],
+          subject: state.todayClasses[0].courseName,
+          time: state.todayClasses[0].day.substring(3),
+          absences: const ['1', '2'],
         ),
         const SizedBox(height: 8),
-        const SubjectItem(
+        SubjectItem(
           smallTitle: 'Next',
-          subject: 'Data Mining',
-          time: '14:45 - 16:15',
+          subject: state.todayClasses[1].courseName,
+          time: state.todayClasses[1].day.substring(3),
           isNext: true,
         ),
         const Divider(

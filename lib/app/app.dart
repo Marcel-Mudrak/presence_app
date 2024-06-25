@@ -8,6 +8,7 @@ import 'package:presence_app/app/app_routing.dart';
 import 'package:presence_app/app/state/firebase/firebase_state.dart';
 import 'package:presence_app/app/state/initialization/initialization_state.dart';
 import 'package:presence_app/app/state/precache/image_precache_state.dart';
+import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/app/widget/app_global_error_dialog.dart';
 import 'package:presence_app/common/constant/app_theme.dart';
 import 'package:presence_app/util/hook/use_async_stream_subscription.dart';
@@ -85,6 +86,7 @@ class App extends HookWidget {
       Injector: () => useMemoized(AppInjector.setup),
       FirebaseState: useFirebaseState,
       ImagePrecacheState: useImagePrecacheState,
+      ScheduleState: useScheduleState,
       InitializationState: useInitializationState, // leave at the end
     };
   }
