@@ -6,7 +6,7 @@ import 'package:presence_app/models/subjects_with_period/subjects_with_period.da
 
 class UekScheduleService {
   static const uekUrl =
-      'https://planzajec.uek.krakow.pl/index.php?typ=G&id=240351&okres=  ';
+      'https://planzajec.uek.krakow.pl/index.php?typ=S&id=8514&okres=';
 
   Future<List<SubjectsWithPeriod>?> getSubjectsWithPeriod() async {
     final List<SubjectsWithPeriod> schedule = [];
@@ -32,9 +32,19 @@ class UekScheduleService {
     for (final subject in subjectListRaw) {
       /// skips legend
       if (subject[0] != 'Termin') {
-
         final Subject readySubject = Subject(
-          date: DateTime.parse(subject[0]),
+          date: DateTime.parse(
+            subject[0],
+          ).copyWith(
+            minute: int.parse(subject[1].substring(6, 8)),
+            hour: int.parse(subject[1].substring(3, 5)),
+          ),
+          dateEnd: DateTime.parse(
+            subject[0],
+          ).copyWith(
+            minute: int.parse(subject[1].substring(14, 16)),
+            hour: int.parse(subject[1].substring(11, 13)),
+          ),
           day: subject[1],
           courseName: subject[2] == '' ? 'No title' : subject[2],
           courseType: subject[3],

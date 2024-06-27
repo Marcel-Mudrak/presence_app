@@ -39,7 +39,7 @@ HomePageState useHomePageState() {
     todayClasses: scheduleState.subjectsWithPeriodList[0].subjects
         .where(
           (element) =>
-              element.date.isToday,
+              element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
         )
         .toList(),
   );

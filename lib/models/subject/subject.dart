@@ -9,6 +9,7 @@ class Subject with _$Subject {
 
   factory Subject({
     required DateTime date,
+    required DateTime dateEnd,
     required String day,
     required String courseName,
     required String courseType,

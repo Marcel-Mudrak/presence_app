@@ -26,7 +26,7 @@ ProfilePageState useProfilePageState() {
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
     todayClasses: scheduleState.subjectsWithPeriodList[0].subjects
         .where(
-          (element) => element.date.compareTo(DateTime.now()) > 0,
+          (element) => element.date.isAfter(DateTime.now()),
         )
         .toList(),
   );
