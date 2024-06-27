@@ -130,10 +130,10 @@ class ProfilePageView extends StatelessWidget {
         thickness: 4,
         radius: const Radius.circular(64),
         child: ListView.separated(
-          itemCount: state.todayClasses.length,
+          itemCount: state.upcomingClasses.length,
           itemBuilder: (context, index) => _buildPresenceItem(
             index: index,
-            subjects: state.todayClasses,
+            subjects: state.upcomingClasses,
           ),
           separatorBuilder: (context, index) => const SizedBox(height: 8),
         ),

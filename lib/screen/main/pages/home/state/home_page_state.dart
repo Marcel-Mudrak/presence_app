@@ -9,12 +9,12 @@ class HomePageState {
   const HomePageState({
     required this.searchFieldState,
     required this.subjectsWithPeriodList,
-    required this.todayClasses,
+    required this.todayLaterClasses,
   });
 
   final FieldState searchFieldState;
   final List<SubjectsWithPeriod> subjectsWithPeriodList;
-  final List<Subject> todayClasses;
+  final List<Subject> todayLaterClasses;
 }
 
 HomePageState useHomePageState() {
@@ -36,7 +36,7 @@ HomePageState useHomePageState() {
   return HomePageState(
     searchFieldState: searchFieldState,
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
-    todayClasses: scheduleState.subjectsWithPeriodList[0].subjects
+    todayLaterClasses: scheduleState.subjectsWithPeriodList[0].subjects
         .where(
           (element) =>
               element.date.isToday && element.dateEnd.isAfter(DateTime.now()),

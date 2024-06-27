@@ -41,29 +41,29 @@ class HomePageView extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         // TODO
-        if (state.todayClasses.length >= 2) ...[
+        if (state.todayLaterClasses.length >= 2) ...[
           SubjectItem(
             smallTitle: 'Today you have',
-            subject: state.todayClasses[0].courseName,
-            time: state.todayClasses[0].day.substring(3),
+            subject: state.todayLaterClasses[0].courseName,
+            time: state.todayLaterClasses[0].day.substring(3),
             absences: const ['1', '2'],
           ),
           const SizedBox(height: 8),
           SubjectItem(
             smallTitle: 'Next',
-            subject: state.todayClasses[1].courseName,
-            time: state.todayClasses[1].day.substring(3),
+            subject: state.todayLaterClasses[1].courseName,
+            time: state.todayLaterClasses[1].day.substring(3),
             isNext: true,
           ),
         ],
-        if (state.todayClasses.length == 1)
+        if (state.todayLaterClasses.length == 1)
           SubjectItem(
             smallTitle: 'Today you have',
-            subject: state.todayClasses[0].courseName,
-            time: state.todayClasses[0].day.substring(3),
+            subject: state.todayLaterClasses[0].courseName,
+            time: state.todayLaterClasses[0].day.substring(3),
             absences: const ['1', '2'],
           ),
-        if (state.todayClasses.isEmpty)
+        if (state.todayLaterClasses.isEmpty)
           const SubjectItem(
             smallTitle: 'Today you have',
             subject: 'Nothing!',
