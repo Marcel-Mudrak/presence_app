@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 import 'package:presence_app/common/widget/field/text/app_text_field.dart';
+import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/screen/main/pages/profile/state/profile_page_state.dart';
 import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
+import 'package:presence_app/util/extension/date_extensions.dart';
+import 'package:presence_app/util/extension/string_extensions.dart';
+import 'package:search_highlight_text/search_highlight_text.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({required this.state});
@@ -55,32 +59,36 @@ class ProfilePageView extends StatelessWidget {
                 padding: EdgeInsets.all(4),
                 child: Row(
                   children: [
-                    Text('Recent Subjects', style: AppText.secondaryHeader),
-                    Spacer(),
-                    Text('Filters', style: AppText.smaller),
-                    SizedBox(width: 4),
-                    Icon(
-                      Icons.filter_list,
-                      color: AppColors.niceWhite,
-                      size: 24,
-                    ),
+                    Text('Upcoming Subjects', style: AppText.secondaryHeader),
                   ],
                 ),
               ),
               AppTextField(
                 state: state.searchFieldState,
-                hint: Row(
-                  children: [
-                    const SizedBox(width: 2),
-                    Icon(Icons.search,
-                        color: AppColors.niceWhite.withAlpha(128)),
-                    const SizedBox(width: 4),
-                    const Text('Search'),
-                  ],
+                prefix: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Icon(
+                    Icons.search,
+                    color: AppColors.niceWhite.withAlpha(128),
+                  ),
+                ),
+                hint: const Text('Search'),
+                suffix: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () async {
+                    await _buildBottomModal(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Icon(
+                      Icons.tune,
+                      color: AppColors.niceWhite.withAlpha(196),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
-              _buildSubjectItemList(),
+              _buildSubjectItemList(state),
             ],
           ),
         ),
@@ -88,7 +96,34 @@ class ProfilePageView extends StatelessWidget {
     );
   }
 
-  Expanded _buildSubjectItemList() {
+  Future<dynamic> _buildBottomModal(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha(196),
+      context: context,
+      builder: _buildBottomModalContent,
+    );
+  }
+
+  SizedBox _buildBottomModalContent(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 2 +
+          MediaQuery.of(context).viewInsets.bottom,
+      width: double.infinity,
+      child: const DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: AppColors.gradientPrimary,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(32),
+            topRight: Radius.circular(32),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded _buildSubjectItemList(ProfilePageState state) {
     return Expanded(
       child: RawScrollbar(
         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -96,30 +131,66 @@ class ProfilePageView extends StatelessWidget {
         thickness: 4,
         radius: const Radius.circular(64),
         child: ListView.separated(
-          itemCount: 16,
-          itemBuilder: (context, index) =>
-              _buildPresenceItem(index: index.toString()),
+          itemCount: state.searchFieldState.value.isEmpty
+              ? state.upcomingClasses.length
+              : state.upcomingClasses
+                  .where(
+                    (element) => element.courseName
+                        .toLowerCase()
+                        .contains(state.searchFieldState.value.toLowerCase()),
+                  )
+                  .length,
+          itemBuilder: (context, index) => _buildPresenceItem(
+            index: index,
+            subjects: state.searchFieldState.value.isEmpty
+                ? state.upcomingClasses
+                : state.upcomingClasses
+                    .where(
+                      (element) => element.courseName
+                          .toLowerCase()
+                          .contains(state.searchFieldState.value.toLowerCase()),
+                    )
+                    .toList(),
+          ),
           separatorBuilder: (context, index) => const SizedBox(height: 8),
         ),
       ),
     );
   }
 
-  Widget _buildPresenceItem({required String index}) {
+  Widget _buildPresenceItem({
+    required int index,
+    required List<Subject> subjects,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          '15-05-2024',
+        Text(
+          subjects[index].date.toDisplayString(),
           style: AppText.date,
         ),
-        Text(
-          'Information System Security  $index',
-          style: AppText.smallHeader,
+        const SizedBox(height: 2),
+        SearchTextInheritedWidget(
+          highlightColor: AppColors.flatOrange,
+          searchText: state.searchFieldState.value,
+          child: AnimatedDefaultTextStyle(
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.elasticOut,
+            style: state.searchFieldState.value.isNotEmpty
+                ? AppText.smallHeader.copyWith(fontSize: 28)
+                : AppText.smallHeader,
+            child: SearchHighlightText(
+              subjects[index].courseName,
+            ),
+          ),
         ),
-        const SizedBox(height: 4),
-        const Text(
-          '08:00 - 09:30',
+        const SizedBox(height: 2),
+        Text(
+          subjects[index].courseType.capitalize(),
+          style: AppText.smallerHeader,
+        ),
+        Text(
+          subjects[index].day,
           style: AppText.smaller,
         )
       ],

@@ -7,14 +7,14 @@ class SubjectItem extends StatelessWidget {
   const SubjectItem({
     required this.smallTitle,
     required this.subject,
-    required this.time,
+    this.time,
     this.isNext = false,
     this.absences,
   });
 
   final String smallTitle;
   final String subject;
-  final String time;
+  final String? time;
   final bool isNext;
   final List<String>? absences;
 
@@ -34,20 +34,20 @@ class SubjectItem extends StatelessWidget {
         const SizedBox(height: 4),
         Row(
           children: [
-            Text(
-              time,
-              style: isNext ? AppText.smaller : AppText.time,
-            ),
-            if (!isNext && absences != null)
-              ...[
-                const SizedBox(
-                  height: 25,
-                  child: VerticalDivider(
-                    color: AppColors.niceWhite,
-                  ),
+            if (time != null)
+              Text(
+                time!,
+                style: isNext ? AppText.smaller : AppText.time,
+              ),
+            if (!isNext && absences != null) ...[
+              const SizedBox(
+                height: 25,
+                child: VerticalDivider(
+                  color: AppColors.niceWhite,
                 ),
-                AbsenceItem(absences: absences!),
-              ],
+              ),
+              AbsenceItem(absences: absences!),
+            ],
           ],
         ),
       ],

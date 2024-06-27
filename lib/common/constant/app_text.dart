@@ -31,6 +31,13 @@ class AppText {
     height: 1,
   );
 
+  static const smallerHeader = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+    color: AppColors.niceWhite,
+    fontSize: 15,
+  );
+
   static const small = TextStyle(
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w300,

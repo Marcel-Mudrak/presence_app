@@ -31,6 +31,10 @@ dependencies:
 
   # misc utils
   intl: ^0.18.0
+  search_highlight_text: ^1.0.0+2
+
+  # web
+  chaleno: ^0.0.7
 
   # code generator runtimes
   freezed_annotation: ^2.2.0
