@@ -12,7 +12,4 @@ extension DateExtensions on DateTime {
 
   bool get isToday =>
       year == _now.year && month == _now.month && day == _now.day;
-
-  bool get isLaterToday =>
-      (year == _now.year && month == _now.month && day == _now.day) && compareTo(_now) > 0;
 }
