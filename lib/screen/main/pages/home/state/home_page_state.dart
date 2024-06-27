@@ -24,14 +24,10 @@ HomePageState useHomePageState() {
   final scheduleState = useProvided<ScheduleState>();
 
   useEffect(
-      () => appReporter.info(scheduleState.subjectsWithPeriodList.toString()));
-
-  // final (subjectWithPeriod in subjectsWithPeriodList)
-  //       subjectWtihPeriod.period
-  //       subjectWtihPeriod.subjectList
-
-  // final dzisiejszaListaSubjectWPeriod = scheduleState.subjectsWithPeriodList
-  //     .where((it) => it.subjects.any((it) => it.date == DateTime.now()));
+    () => appReporter.info(
+      scheduleState.subjectsWithPeriodList.toString(),
+    ),
+  );
 
   return HomePageState(
     searchFieldState: searchFieldState,
