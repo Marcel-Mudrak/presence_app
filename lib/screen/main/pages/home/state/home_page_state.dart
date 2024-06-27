@@ -1,4 +1,3 @@
-import 'package:presence_app/app/app_reporter.dart';
 import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/models/subjects_with_period/subjects_with_period.dart';
@@ -22,12 +21,6 @@ HomePageState useHomePageState() {
   useEffect(() {}, [searchFieldState.value]);
 
   final scheduleState = useProvided<ScheduleState>();
-
-  useEffect(
-    () => appReporter.info(
-      scheduleState.subjectsWithPeriodList.toString(),
-    ),
-  );
 
   return HomePageState(
     searchFieldState: searchFieldState,

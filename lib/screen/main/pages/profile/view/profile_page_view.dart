@@ -7,6 +7,7 @@ import 'package:presence_app/screen/main/pages/profile/state/profile_page_state.
 import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
 import 'package:presence_app/util/extension/date_extensions.dart';
 import 'package:presence_app/util/extension/string_extensions.dart';
+import 'package:search_highlight_text/search_highlight_text.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({required this.state});
@@ -130,10 +131,26 @@ class ProfilePageView extends StatelessWidget {
         thickness: 4,
         radius: const Radius.circular(64),
         child: ListView.separated(
-          itemCount: state.upcomingClasses.length,
+          itemCount: state.searchFieldState.value.isEmpty
+              ? state.upcomingClasses.length
+              : state.upcomingClasses
+                  .where(
+                    (element) => element.courseName
+                        .toLowerCase()
+                        .contains(state.searchFieldState.value.toLowerCase()),
+                  )
+                  .length,
           itemBuilder: (context, index) => _buildPresenceItem(
             index: index,
-            subjects: state.upcomingClasses,
+            subjects: state.searchFieldState.value.isEmpty
+                ? state.upcomingClasses
+                : state.upcomingClasses
+                    .where(
+                      (element) => element.courseName
+                          .toLowerCase()
+                          .contains(state.searchFieldState.value.toLowerCase()),
+                    )
+                    .toList(),
           ),
           separatorBuilder: (context, index) => const SizedBox(height: 8),
         ),
@@ -152,9 +169,20 @@ class ProfilePageView extends StatelessWidget {
           subjects[index].date.toDisplayString(),
           style: AppText.date,
         ),
-        Text(
-          subjects[index].courseName,
-          style: AppText.smallHeader,
+        const SizedBox(height: 2),
+        SearchTextInheritedWidget(
+          highlightColor: AppColors.flatOrange,
+          searchText: state.searchFieldState.value,
+          child: AnimatedDefaultTextStyle(
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.elasticOut,
+            style: state.searchFieldState.value.isNotEmpty
+                ? AppText.smallHeader.copyWith(fontSize: 28)
+                : AppText.smallHeader,
+            child: SearchHighlightText(
+              subjects[index].courseName,
+            ),
+          ),
         ),
         const SizedBox(height: 2),
         Text(
