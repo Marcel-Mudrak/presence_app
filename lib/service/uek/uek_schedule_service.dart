@@ -6,7 +6,7 @@ import 'package:presence_app/models/subjects_with_period/subjects_with_period.da
 
 class UekScheduleService {
   static const uekUrl =
-      'https://planzajec.uek.krakow.pl/index.php?typ=S&id=8514&okres=';
+      'https://planzajec.uek.krakow.pl/index.php?typ=G&id=240351&okres=';
 
   Future<List<SubjectsWithPeriod>?> getSubjectsWithPeriod() async {
     final List<SubjectsWithPeriod> schedule = [];

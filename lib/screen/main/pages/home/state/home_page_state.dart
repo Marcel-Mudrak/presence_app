@@ -25,7 +25,7 @@ HomePageState useHomePageState() {
   return HomePageState(
     searchFieldState: searchFieldState,
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
-    todayLaterClasses: scheduleState.subjectsWithPeriodList[0].subjects
+    todayLaterClasses: scheduleState.subjectsWithPeriodList[1].subjects
         .where(
           (element) =>
               element.date.isToday && element.dateEnd.isAfter(DateTime.now()),

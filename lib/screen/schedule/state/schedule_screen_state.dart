@@ -1,33 +1,34 @@
+import 'package:flutter/material.dart';
 import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
-import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/models/subjects_with_period/subjects_with_period.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
-class ProfilePageState {
-  const ProfilePageState({
-    required this.searchFieldState,
+class ScheduleScreenState {
+  const ScheduleScreenState({
     required this.subjectsWithPeriodList,
-    required this.upcomingClasses,
+    required this.searchFieldState,
+    required this.chosenDateRangeState,
   });
 
   final FieldState searchFieldState;
   final List<SubjectsWithPeriod> subjectsWithPeriodList;
-  final List<Subject> upcomingClasses;
+  final ListenableMutableValue<DateTimeRange?> chosenDateRangeState;
 }
 
-ProfilePageState useProfilePageState() {
+ScheduleScreenState useScheduleScreenState() {
   final searchFieldState = useFieldState();
-  useEffect(() {}, [searchFieldState.value]);
-
   final scheduleState = useProvided<ScheduleState>();
 
-  return ProfilePageState(
+  final dateRangeState = useState<DateTimeRange?>(
+    DateTimeRange(
+      start: DateTime.now().subtract(const Duration(days: 90)),
+      end: DateTime.now(),
+    ),
+  );
+
+  return ScheduleScreenState(
     searchFieldState: searchFieldState,
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
-    upcomingClasses: scheduleState.subjectsWithPeriodList[1].subjects
-        .where(
-          (element) => element.date.isAfter(DateTime.now()),
-        )
-        .toList(),
+    chosenDateRangeState: dateRangeState,
   );
 }

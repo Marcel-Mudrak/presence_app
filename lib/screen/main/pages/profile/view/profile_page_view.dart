@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
+import 'package:presence_app/common/widget/custom_app_bar.dart';
 import 'package:presence_app/common/widget/field/text/app_text_field.dart';
 import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/screen/main/pages/profile/state/profile_page_state.dart';
-import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
+import 'package:presence_app/screen/schedule/schedule_screen.dart';
 import 'package:presence_app/util/extension/date_extensions.dart';
 import 'package:presence_app/util/extension/string_extensions.dart';
 import 'package:search_highlight_text/search_highlight_text.dart';
+import 'package:utopia_arch/utopia_arch.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({required this.state});
@@ -21,7 +23,6 @@ class ProfilePageView extends StatelessWidget {
       children: [
         const CustomAppBar(
           pageName: 'Marcel Mudrak',
-          icon: Icons.person,
         ),
         const SizedBox(height: 16),
         const Text(
@@ -34,23 +35,7 @@ class ProfilePageView extends StatelessWidget {
           style: AppText.small,
         ),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildProfileItem(
-              icon: Icons.date_range,
-              text: 'Schedule',
-            ),
-            _buildProfileItem(
-              icon: Icons.person_off_outlined,
-              text: 'Absences',
-            ),
-            _buildProfileItem(
-              icon: Icons.help_center_outlined,
-              text: 'Help',
-            ),
-          ],
-        ),
+        _buildProfileItems(context),
         const SizedBox(height: 8),
         Expanded(
           child: Column(
@@ -63,33 +48,68 @@ class ProfilePageView extends StatelessWidget {
                   ],
                 ),
               ),
-              AppTextField(
-                state: state.searchFieldState,
-                prefix: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Icon(
-                    Icons.search,
-                    color: AppColors.niceWhite.withAlpha(128),
-                  ),
-                ),
-                hint: const Text('Search'),
-                suffix: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () async {
-                    await _buildBottomModal(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Icon(
-                      Icons.tune,
-                      color: AppColors.niceWhite.withAlpha(196),
-                    ),
-                  ),
-                ),
-              ),
+              _buildSearchField(context),
               const SizedBox(height: 12),
               _buildSubjectItemList(state),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  AppTextField _buildSearchField(BuildContext context) {
+    return AppTextField(
+      state: state.searchFieldState,
+      prefix: Padding(
+        padding: const EdgeInsets.only(left: 16),
+        child: Icon(
+          Icons.search,
+          color: AppColors.niceWhite.withAlpha(128),
+        ),
+      ),
+      hint: const Text('Search'),
+      suffix: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () async {
+          await _buildBottomModal(context);
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 12),
+          child: Icon(
+            Icons.tune,
+            color: AppColors.niceWhite.withAlpha(196),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row _buildProfileItems(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: () async {
+            await context.navigator.pushNamed(ScheduleScreen.route);
+          },
+          child: _buildProfileItem(
+            icon: Icons.date_range,
+            text: 'Schedule',
+          ),
+        ),
+        GestureDetector(
+          // TODO
+          child: _buildProfileItem(
+            icon: Icons.person_off_outlined,
+            text: 'Absences',
+          ),
+        ),
+        GestureDetector(
+          // TODO
+          child: _buildProfileItem(
+            icon: Icons.help_center_outlined,
+            text: 'Help',
           ),
         ),
       ],
@@ -140,7 +160,7 @@ class ProfilePageView extends StatelessWidget {
                         .contains(state.searchFieldState.value.toLowerCase()),
                   )
                   .length,
-          itemBuilder: (context, index) => _buildPresenceItem(
+          itemBuilder: (context, index) => _buildSubjectItem(
             index: index,
             subjects: state.searchFieldState.value.isEmpty
                 ? state.upcomingClasses
@@ -158,7 +178,7 @@ class ProfilePageView extends StatelessWidget {
     );
   }
 
-  Widget _buildPresenceItem({
+  Widget _buildSubjectItem({
     required int index,
     required List<Subject> subjects,
   }) {

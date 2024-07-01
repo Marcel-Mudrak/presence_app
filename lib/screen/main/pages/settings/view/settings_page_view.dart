@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:presence_app/common/widget/custom_app_bar.dart';
 import 'package:presence_app/screen/main/pages/settings/state/settings_page_state.dart';
-import 'package:presence_app/screen/main/widgets/custom_app_bar.dart';
 
 class SettingsPageView extends StatelessWidget {
   const SettingsPageView({required this.state});
@@ -13,7 +13,6 @@ class SettingsPageView extends StatelessWidget {
       children: [
         CustomAppBar(
           pageName: 'Settings',
-          icon: Icons.language,
         ),
       ],
     );
