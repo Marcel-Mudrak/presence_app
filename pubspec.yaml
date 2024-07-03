@@ -28,6 +28,7 @@ dependencies:
   # misc widgets
   flutter_svg: ^2.0.0+1
   google_nav_bar: ^5.0.6
+  date_picker_plus: ^4.1.0
 
   # misc utils
   intl: ^0.18.0
