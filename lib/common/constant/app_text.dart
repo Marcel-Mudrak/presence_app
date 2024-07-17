@@ -52,6 +52,13 @@ class AppText {
     fontSize: 13,
   );
 
+  static const datePick = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+    color: AppColors.button,
+    fontSize: 15,
+  );
+
   static const smallest = TextStyle(
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w300,

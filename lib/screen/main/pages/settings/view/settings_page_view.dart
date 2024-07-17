@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:presence_app/common/widget/custom_app_bar.dart';
+import 'package:presence_app/common/widget/app_bar/custom_app_bar.dart';
 import 'package:presence_app/screen/main/pages/settings/state/settings_page_state.dart';
 
 class SettingsPageView extends StatelessWidget {

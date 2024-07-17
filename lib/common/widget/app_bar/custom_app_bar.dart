@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:popover/popover.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_images.dart';
 import 'package:presence_app/common/constant/app_text.dart';
+import 'package:presence_app/common/widget/pop_menu/menu_items.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
-    this.pageName = 'No name',
+    this.pageName = '',
     this.backIcon = false,
   });
 
@@ -49,11 +51,23 @@ class CustomAppBar extends StatelessWidget {
             style: AppText.appBarTitle,
           ),
         const Spacer(),
-        const Icon(
-          Icons.language,
-          size: 28,
-          color: AppColors.niceWhite,
-        )
+        Builder(
+          builder: (context) => GestureDetector(
+            onTap: () async => showPopover(
+              context: context,
+              bodyBuilder: (context) => const MenuItems(),
+              height: 200,
+              width: 200,
+              direction: PopoverDirection.top,
+              backgroundColor: AppColors.button,
+            ),
+            child: const Icon(
+              Icons.language,
+              size: 28,
+              color: AppColors.niceWhite,
+            ),
+          ),
+        ),
       ],
     );
   }

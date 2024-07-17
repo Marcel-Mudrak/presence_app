@@ -2,7 +2,7 @@ import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
-import 'package:presence_app/common/widget/custom_app_bar.dart';
+import 'package:presence_app/common/widget/app_bar/custom_app_bar.dart';
 import 'package:presence_app/common/widget/field/text/app_text_field.dart';
 import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/screen/schedule/state/schedule_screen_state.dart';
@@ -47,20 +47,21 @@ class ScheduleScreenView extends StatelessWidget {
                 'ZIIAS1-3611',
                 style: AppText.small,
               ),
-              const SizedBox(height: 8),
-              GestureDetector(
-                onTap: () async {
-                  state.chosenDateRangeState.value = await showRangePickerDialog(
-                    context: context,
-                    minDate: DateTime.now().subtract(const Duration(days: 90)),
-                    maxDate: DateTime.now().add(const Duration(days: 90)),
-                  );
-                },
-                child: _buildScheduleDateRangeButton(
-                  text: 'Select date range',
-                ),
+              const SizedBox(height: 4),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: _buildSearchField(context),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 1,
+                    child: _buildDatePicker(context),
+                  ),
+                ],
               ),
-              _buildSearchField(context),
               const SizedBox(height: 12),
               _buildScheduleDate(
                 text:
@@ -74,6 +75,44 @@ class ScheduleScreenView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  GestureDetector _buildDatePicker(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        state.chosenDateRangeState.value = await showRangePickerDialog(
+          context: context,
+          minDate: DateTime.now().subtract(const Duration(days: 90)),
+          maxDate: DateTime.now().add(const Duration(days: 90)),
+          splashRadius: 0,
+          highlightColor: AppColors.washedFlatOrange,
+          slidersColor: AppColors.washedFlatOrange,
+          currentDateDecoration: BoxDecoration(
+            border: Border.all(color: AppColors.flatOrange),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          selectedCellsDecoration: const BoxDecoration(
+            color: AppColors.flatOrange,
+          ),
+          singleSelectedCellDecoration: BoxDecoration(
+            color: AppColors.flatOrange,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          leadingDateTextStyle: AppText.smallHeader.copyWith(
+            color: AppColors.button,
+          ),
+          currentDateTextStyle: AppText.datePick,
+          daysOfTheWeekTextStyle: AppText.datePick,
+          disabledCellsTextStyle: AppText.datePick.copyWith(
+            color: AppColors.textSecondary,
+          ),
+          enabledCellsTextStyle: AppText.datePick,
+          selectedCellsTextStyle: AppText.datePick,
+          singleSelectedCellTextStyle: AppText.datePick,
+        );
+      },
+      child: _buildScheduleButton(icon: Icons.date_range),
     );
   }
 
@@ -120,16 +159,16 @@ class ScheduleScreenView extends StatelessWidget {
     );
   }
 
-  Widget _buildScheduleDateRangeButton({required String text}) {
+  Widget _buildScheduleButton({required IconData icon}) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.button.withAlpha(128),
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(16),
-      child: Text(
-        text,
-        style: AppText.smallerHeader,
+      child: Icon(
+        icon,
+        color: AppColors.niceWhite,
       ),
     );
   }
@@ -137,7 +176,10 @@ class ScheduleScreenView extends StatelessWidget {
   Widget _buildScheduleDate({required String text}) {
     return Text(
       text,
-      style: AppText.smallHeader.copyWith(fontWeight: FontWeight.w300, letterSpacing: -1),
+      style: AppText.smallHeader.copyWith(
+        fontWeight: FontWeight.w300,
+        letterSpacing: -1,
+      ),
     );
   }
 
