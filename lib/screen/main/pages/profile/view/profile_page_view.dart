@@ -30,8 +30,8 @@ class ProfilePageView extends StatelessWidget {
           style: AppText.smallHeader,
         ),
         const SizedBox(height: 4),
-        const Text(
-          'ZIIAS1-3611',
+        Text(
+          state.subjectsWithPeriodList[0].group,
           style: AppText.small,
         ),
         const SizedBox(height: 8),

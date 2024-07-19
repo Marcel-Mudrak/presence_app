@@ -43,8 +43,8 @@ class ScheduleScreenView extends StatelessWidget {
                 style: AppText.secondaryHeader,
               ),
               const SizedBox(height: 4),
-              const Text(
-                'ZIIAS1-3611',
+              Text(
+                state.subjectsWithPeriodList[0].group,
                 style: AppText.small,
               ),
               const SizedBox(height: 4),
@@ -121,36 +121,41 @@ class ScheduleScreenView extends StatelessWidget {
       slivers: [
         for (final period in state.subjectsWithPeriodList) ...[
           SliverList.builder(
-            itemCount: period.subjects.where((it) {
-              final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
-                  it.date.isBefore(state.chosenDateRangeState.value!.end);
+            itemCount: period.subjects.where(
+              (it) {
+                final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
+                    it.date.isBefore(state.chosenDateRangeState.value!.end);
 
-              if (state.searchFieldState.value.isEmpty) {
-                return isInDateRange;
-              }
+                if (state.searchFieldState.value.isEmpty) {
+                  return isInDateRange;
+                }
 
-              final isInSearchQuery = it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
+                final isInSearchQuery =
+                    it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
 
-              return isInDateRange && isInSearchQuery;
-            }).length,
+                return isInDateRange && isInSearchQuery;
+              },
+            ).length,
             itemBuilder: (context, index) {
               final sortedSubjects = period.subjects.toSortedList((a, b) => b.date.compareTo(a.date));
 
               return _buildSubjectItem(
                 index: index,
-                subjects: sortedSubjects.where((it) {
-                  final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
-                      it.date.isBefore(state.chosenDateRangeState.value!.end);
+                subjects: sortedSubjects.where(
+                  (it) {
+                    final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
+                        it.date.isBefore(state.chosenDateRangeState.value!.end);
 
-                  if (state.searchFieldState.value.isEmpty) {
-                    return isInDateRange;
-                  }
+                    if (state.searchFieldState.value.isEmpty) {
+                      return isInDateRange;
+                    }
 
-                  final isInSearchQuery =
-                      it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
+                    final isInSearchQuery =
+                        it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
 
-                  return isInDateRange && isInSearchQuery;
-                }).toList(),
+                    return isInDateRange && isInSearchQuery;
+                  },
+                ).toList(),
               );
             },
           ),
@@ -231,7 +236,8 @@ class ScheduleScreenView extends StatelessWidget {
         Text(
           subjects[index].day,
           style: AppText.smaller,
-        )
+        ),
+        const SizedBox(height: 8),
       ],
     );
   }
