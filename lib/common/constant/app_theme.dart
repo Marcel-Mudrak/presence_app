@@ -4,7 +4,7 @@ import 'package:utopia_arch/utopia_arch.dart';
 
 final appTheme = ThemeData(
   primaryColor: AppColors.primary,
-  textSelectionTheme:
-      const TextSelectionThemeData(selectionHandleColor: AppColors.niceWhite),
+  dialogBackgroundColor: AppColors.button,
+  textSelectionTheme: const TextSelectionThemeData(selectionHandleColor: AppColors.niceWhite),
   appBarTheme: AppBarTheme(systemOverlayStyle: RouteConfig.darkTop),
 );

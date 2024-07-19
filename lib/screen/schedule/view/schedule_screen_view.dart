@@ -65,7 +65,7 @@ class ScheduleScreenView extends StatelessWidget {
               const SizedBox(height: 12),
               _buildScheduleDate(
                 text:
-                    'Showing ${state.chosenDateRangeState.value?.start.toDisplayString()} to ${state.chosenDateRangeState.value?.end.toDisplayString()}',
+                    '${state.chosenDateRangeState.value?.start.toDisplayString()} - ${state.chosenDateRangeState.value?.end.toDisplayString()}',
               ),
               const SizedBox(height: 12),
               Expanded(
@@ -87,21 +87,21 @@ class ScheduleScreenView extends StatelessWidget {
           minDate: DateTime.now().subtract(const Duration(days: 90)),
           maxDate: DateTime.now().add(const Duration(days: 90)),
           splashRadius: 0,
-          highlightColor: AppColors.button,
-          slidersColor: AppColors.button,
+          highlightColor: AppColors.niceWhite,
+          slidersColor: AppColors.niceWhite,
           currentDateDecoration: BoxDecoration(
-            border: Border.all(color: AppColors.button),
+            border: Border.all(color: AppColors.niceWhite),
             borderRadius: BorderRadius.circular(16),
           ),
           selectedCellsDecoration: const BoxDecoration(
-            color: AppColors.button,
+            color: AppColors.niceWhite,
           ),
           singleSelectedCellDecoration: BoxDecoration(
-            color: AppColors.button,
+            color: AppColors.niceWhite,
             borderRadius: BorderRadius.circular(16),
           ),
           leadingDateTextStyle: AppText.smallHeader.copyWith(
-            color: AppColors.button,
+            color: AppColors.niceWhite,
           ),
           currentDateTextStyle: AppText.datePick,
           daysOfTheWeekTextStyle: AppText.datePick,
@@ -109,8 +109,8 @@ class ScheduleScreenView extends StatelessWidget {
             color: AppColors.textSecondary,
           ),
           enabledCellsTextStyle: AppText.datePick,
-          selectedCellsTextStyle: AppText.datePick.copyWith(color: AppColors.niceWhite),
-          singleSelectedCellTextStyle: AppText.datePick.copyWith(color: AppColors.niceWhite),
+          selectedCellsTextStyle: AppText.datePick.copyWith(color: AppColors.button),
+          singleSelectedCellTextStyle: AppText.datePick.copyWith(color: AppColors.button),
         );
       },
       child: _buildScheduleButton(icon: Icons.date_range),

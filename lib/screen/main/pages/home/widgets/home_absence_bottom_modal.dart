@@ -102,7 +102,7 @@ class HomeAbsenceBottomModal extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: AppColors.button.withAlpha(128),
+                  color: AppColors.button,
                 ),
                 padding: const EdgeInsets.all(12),
                 child: const Row(
@@ -144,7 +144,7 @@ class HomeAbsenceBottomModal extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: AppColors.button.withAlpha(128),
+                color: AppColors.button,
               ),
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
               child: const Row(

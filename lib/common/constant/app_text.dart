@@ -54,8 +54,8 @@ class AppText {
 
   static const datePick = TextStyle(
     fontFamily: 'Poppins',
-    fontWeight: FontWeight.w300,
-    color: AppColors.button,
+    fontWeight: FontWeight.w400,
+    color: AppColors.niceWhite,
     fontSize: 15,
   );
 
