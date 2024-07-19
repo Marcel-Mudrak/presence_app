@@ -10,9 +10,9 @@ class SubjectsWithPeriod with _$SubjectsWithPeriod {
 
   factory SubjectsWithPeriod({
     required int period,
+    required String group,
     required List<Subject> subjects,
   }) = _SubjectsWithPeriod;
 
-  factory SubjectsWithPeriod.fromJson(Map<String, dynamic> json) =>
-      _$SubjectsWithPeriodFromJson(json);
+  factory SubjectsWithPeriod.fromJson(Map<String, dynamic> json) => _$SubjectsWithPeriodFromJson(json);
 }

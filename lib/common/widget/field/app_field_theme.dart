@@ -36,13 +36,13 @@ class AppFieldThemeData {
   }
 
   static final standard = AppFieldThemeData(
-    style: AppText.input,
+    style: AppText.small,
     labelStyle: AppText.inputLabel,
     errorStyle: AppText.inputLabel.copyWith(color: AppColors.error),
     hintStyle: AppText.inputHint,
     decoration: BoxDecoration(
       borderRadius: const BorderRadius.all(Radius.circular(16)),
-      color: AppColors.button.withAlpha(128),
+      color: AppColors.button.withOpacity(0.8),
     ),
     textPadding: const EdgeInsets.all(16),
   );

@@ -30,7 +30,7 @@ class ScheduleScreenView extends StatelessWidget {
         ),
         width: double.infinity,
         decoration: const BoxDecoration(
-          gradient: AppColors.gradientSecondary,
+          gradient: AppColors.gradientPrimary,
         ),
         child: SafeArea(
           child: Column(
@@ -43,8 +43,8 @@ class ScheduleScreenView extends StatelessWidget {
                 style: AppText.secondaryHeader,
               ),
               const SizedBox(height: 4),
-              const Text(
-                'ZIIAS1-3611',
+              Text(
+                state.subjectsWithPeriodList[0].group,
                 style: AppText.small,
               ),
               const SizedBox(height: 4),
@@ -65,7 +65,7 @@ class ScheduleScreenView extends StatelessWidget {
               const SizedBox(height: 12),
               _buildScheduleDate(
                 text:
-                    'Showing ${state.chosenDateRangeState.value?.start.toDisplayString()} to ${state.chosenDateRangeState.value?.end.toDisplayString()}',
+                    '${state.chosenDateRangeState.value?.start.toDisplayString()} - ${state.chosenDateRangeState.value?.end.toDisplayString()}',
               ),
               const SizedBox(height: 12),
               Expanded(
@@ -83,24 +83,25 @@ class ScheduleScreenView extends StatelessWidget {
       onTap: () async {
         state.chosenDateRangeState.value = await showRangePickerDialog(
           context: context,
+          barrierDismissible: false,
           minDate: DateTime.now().subtract(const Duration(days: 90)),
           maxDate: DateTime.now().add(const Duration(days: 90)),
           splashRadius: 0,
-          highlightColor: AppColors.washedFlatOrange,
-          slidersColor: AppColors.washedFlatOrange,
+          highlightColor: AppColors.niceWhite,
+          slidersColor: AppColors.niceWhite,
           currentDateDecoration: BoxDecoration(
-            border: Border.all(color: AppColors.flatOrange),
+            border: Border.all(color: AppColors.niceWhite),
             borderRadius: BorderRadius.circular(16),
           ),
           selectedCellsDecoration: const BoxDecoration(
-            color: AppColors.flatOrange,
+            color: AppColors.niceWhite,
           ),
           singleSelectedCellDecoration: BoxDecoration(
-            color: AppColors.flatOrange,
+            color: AppColors.niceWhite,
             borderRadius: BorderRadius.circular(16),
           ),
           leadingDateTextStyle: AppText.smallHeader.copyWith(
-            color: AppColors.button,
+            color: AppColors.niceWhite,
           ),
           currentDateTextStyle: AppText.datePick,
           daysOfTheWeekTextStyle: AppText.datePick,
@@ -108,8 +109,8 @@ class ScheduleScreenView extends StatelessWidget {
             color: AppColors.textSecondary,
           ),
           enabledCellsTextStyle: AppText.datePick,
-          selectedCellsTextStyle: AppText.datePick,
-          singleSelectedCellTextStyle: AppText.datePick,
+          selectedCellsTextStyle: AppText.datePick.copyWith(color: AppColors.button),
+          singleSelectedCellTextStyle: AppText.datePick.copyWith(color: AppColors.button),
         );
       },
       child: _buildScheduleButton(icon: Icons.date_range),
@@ -121,36 +122,41 @@ class ScheduleScreenView extends StatelessWidget {
       slivers: [
         for (final period in state.subjectsWithPeriodList) ...[
           SliverList.builder(
-            itemCount: period.subjects.where((it) {
-              final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
-                  it.date.isBefore(state.chosenDateRangeState.value!.end);
+            itemCount: period.subjects.where(
+              (it) {
+                final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
+                    it.date.isBefore(state.chosenDateRangeState.value!.end);
 
-              if (state.searchFieldState.value.isEmpty) {
-                return isInDateRange;
-              }
+                if (state.searchFieldState.value.isEmpty) {
+                  return isInDateRange;
+                }
 
-              final isInSearchQuery = it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
+                final isInSearchQuery =
+                    it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
 
-              return isInDateRange && isInSearchQuery;
-            }).length,
+                return isInDateRange && isInSearchQuery;
+              },
+            ).length,
             itemBuilder: (context, index) {
               final sortedSubjects = period.subjects.toSortedList((a, b) => b.date.compareTo(a.date));
 
               return _buildSubjectItem(
                 index: index,
-                subjects: sortedSubjects.where((it) {
-                  final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
-                      it.date.isBefore(state.chosenDateRangeState.value!.end);
+                subjects: sortedSubjects.where(
+                  (it) {
+                    final isInDateRange = it.date.isAfter(state.chosenDateRangeState.value!.start) &&
+                        it.date.isBefore(state.chosenDateRangeState.value!.end);
 
-                  if (state.searchFieldState.value.isEmpty) {
-                    return isInDateRange;
-                  }
+                    if (state.searchFieldState.value.isEmpty) {
+                      return isInDateRange;
+                    }
 
-                  final isInSearchQuery =
-                      it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
+                    final isInSearchQuery =
+                        it.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase());
 
-                  return isInDateRange && isInSearchQuery;
-                }).toList(),
+                    return isInDateRange && isInSearchQuery;
+                  },
+                ).toList(),
               );
             },
           ),
@@ -162,7 +168,7 @@ class ScheduleScreenView extends StatelessWidget {
   Widget _buildScheduleButton({required IconData icon}) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.button.withAlpha(128),
+        color: AppColors.button,
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(16),
@@ -190,7 +196,7 @@ class ScheduleScreenView extends StatelessWidget {
         padding: const EdgeInsets.only(left: 16),
         child: Icon(
           Icons.search,
-          color: AppColors.niceWhite.withAlpha(128),
+          color: AppColors.niceWhite.withOpacity(0.8),
         ),
       ),
       hint: const Text('Search'),
@@ -202,36 +208,49 @@ class ScheduleScreenView extends StatelessWidget {
     required List<Subject> subjects,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          subjects[index].date.toDisplayString(),
-          style: AppText.date,
-        ),
-        const SizedBox(height: 2),
-        SearchTextInheritedWidget(
-          highlightColor: AppColors.flatOrange,
-          searchText: state.searchFieldState.value,
-          child: AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 1000),
-            curve: Curves.elasticOut,
-            style: state.searchFieldState.value.isNotEmpty
-                ? AppText.smallHeader.copyWith(fontSize: 28)
-                : AppText.smallHeader,
-            child: SearchHighlightText(
-              subjects[index].courseName,
-            ),
+        Container(
+          padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.button.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                subjects[index].date.toDisplayString(),
+                style: AppText.date,
+              ),
+              const SizedBox(height: 2),
+              SearchTextInheritedWidget(
+                highlightColor: AppColors.flatOrange,
+                searchText: state.searchFieldState.value,
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.elasticOut,
+                  style: state.searchFieldState.value.isNotEmpty
+                      ? AppText.smallHeader.copyWith(fontSize: 28)
+                      : AppText.smallHeader,
+                  child: SearchHighlightText(
+                    subjects[index].courseName,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subjects[index].courseType.capitalize(),
+                style: AppText.smallerHeader,
+              ),
+              Text(
+                subjects[index].day,
+                style: AppText.smaller,
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 2),
-        Text(
-          subjects[index].courseType.capitalize(),
-          style: AppText.smallerHeader,
-        ),
-        Text(
-          subjects[index].day,
-          style: AppText.smaller,
-        )
+        const SizedBox(height: 8),
       ],
     );
   }

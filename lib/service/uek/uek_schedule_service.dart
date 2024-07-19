@@ -5,8 +5,7 @@ import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/models/subjects_with_period/subjects_with_period.dart';
 
 class UekScheduleService {
-  static const uekUrl =
-      'https://planzajec.uek.krakow.pl/index.php?typ=G&id=240351&okres=';
+  static const uekUrl = 'https://planzajec.uek.krakow.pl/index.php?typ=G&id=240351&okres=';
 
   Future<List<SubjectsWithPeriod>?> getSubjectsWithPeriod() async {
     final List<SubjectsWithPeriod> schedule = [];
@@ -15,12 +14,17 @@ class UekScheduleService {
       final parser = await Chaleno().load('$uekUrl$period');
 
       final List<Result> resultData = parser?.getElementsByTagName('tr') ?? [];
+      final String group = parser?.querySelector('.grupa').text ?? '';
+
       if (resultData.isEmpty) return null;
 
       final subjectListRaw = _lineSplitterParser(resultData);
       final subjectList = _getSubjectList(subjectListRaw);
-      final subjectWithPeriod =
-          SubjectsWithPeriod(period: period, subjects: subjectList);
+      final subjectWithPeriod = SubjectsWithPeriod(
+        period: period,
+        subjects: subjectList,
+        group: group,
+      );
       schedule.add(subjectWithPeriod);
     }
     return schedule;

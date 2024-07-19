@@ -15,8 +15,8 @@ class AppColors {
   static const washedFlatOrangeDark = Color(0xFFD8793F);
   static const washedFlatOrangeDarker = Color(0xFFAE6333);
 
-  static const greyBlue = Color(0xFF5B6B69);
-  static const button = Color(0xFF212121);
+  static const secondaryBlue = Color(0xFF6E8E84);
+  static const button = Color(0xFF092635);
 
   static const error = Color(0xFFFF2B2B);
   static const textPrimary = Color(0xFF2F353B);
@@ -24,8 +24,8 @@ class AppColors {
 
   static const gradientPrimary = LinearGradient(
     colors: [
-      greyBlue,
       button,
+      secondaryBlue,
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -33,7 +33,7 @@ class AppColors {
 
   static const gradientSecondary = LinearGradient(
     colors: [
-      greyBlue,
+      button,
       secondary,
       secondary,
     ],

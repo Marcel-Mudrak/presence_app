@@ -12,25 +12,28 @@ class MainScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 16,
-        ),
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: AppColors.gradientSecondary,
-        ),
-        child: SafeArea(
-          child: CrossFadeIndexedStack(
-            duration: const Duration(milliseconds: 400),
-            index: state.currentPage.index,
-            children: [
-              for (final page in MainPage.values) page.builder(),
-            ],
+      body: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 16,
+            ),
+            decoration: const BoxDecoration(
+              gradient: AppColors.gradientPrimary,
+            ),
+            child: SafeArea(
+              child: CrossFadeIndexedStack(
+                duration: const Duration(milliseconds: 400),
+                index: state.currentPage.index,
+                children: [
+                  for (final page in MainPage.values) page.builder(),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
       bottomNavigationBar: CustomBottomNavBar(state: state),
     );

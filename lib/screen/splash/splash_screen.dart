@@ -13,14 +13,14 @@ class SplashScreen extends HookWidget {
     final initializationState = useProvided<InitializationState>();
 
     useEffect(() async {
-      if(initializationState.isInitialized) {
+      if (initializationState.isInitialized) {
         await context.navigator.pushNamedAndReset(MainScreen.route);
       }
     }, [initializationState.isInitialized]);
 
     return Container(
       decoration: const BoxDecoration(
-        gradient: AppColors.gradientSecondary,
+        gradient: AppColors.gradientPrimary,
       ),
     );
   }
