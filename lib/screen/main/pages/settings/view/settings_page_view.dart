@@ -22,8 +22,14 @@ class SettingsPageView extends StatelessWidget {
           child: ListView(
             children: [
               const SizedBox(height: 8),
-              _buildSettingItem(settingName: 'Language', settingDescription: 'Change the application language'),
-              _buildSettingItem(settingName: 'Group', settingDescription: 'Change your student group'),
+              _buildSettingItem(
+                settingName: 'Language',
+                settingDescription: 'Change the application language',
+              ),
+              _buildSettingItem(
+                settingName: 'Group',
+                settingDescription: 'Change your student group',
+              ),
               Row(
                 children: [
                   Expanded(
@@ -44,10 +50,26 @@ class SettingsPageView extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: _buildSettingItem(settingName: 'Credits', extraItem: true, icon: Icons.person_pin_sharp),
-                  )),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: _buildSettingItem(
+                        settingName: 'Credits',
+                        extraItem: true,
+                        icon: Icons.person_pin_sharp,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildSettingItem(
+                      settingName: 'Logout',
+                      extraItem: true,
+                      icon: Icons.logout,
+                    ),
+                  ),
                 ],
               ),
             ].separatedWith(

@@ -895,7 +895,7 @@ packages:
     source: hosted
     version: "0.2.0+3"
   utopia_hooks:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: utopia_hooks
       sha256: "9853f53b4db98f02d1476daf0082ce1476b9bab81186889b90bc24ca502669a7"

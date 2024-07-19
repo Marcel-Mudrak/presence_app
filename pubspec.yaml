@@ -15,6 +15,7 @@ dependencies:
   # utopia libs
   utopia_arch: ^0.5.0+8
   utopia_firebase_crashlytics: ^0.2.0
+  utopia_hooks: ^0.4.10
 
   # architecture
   injector: ^3.0.0
