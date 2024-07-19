@@ -91,7 +91,7 @@ class SettingsPageView extends StatelessWidget {
       padding: extraItem ? const EdgeInsets.all(8) : const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: extraItem ? AppColors.button.withOpacity(0.6) : AppColors.button.withOpacity(0.7),
+        color: extraItem ? AppColors.button.withOpacity(0.8) : AppColors.button,
       ),
       child: Column(
         crossAxisAlignment: extraItem ? CrossAxisAlignment.center : CrossAxisAlignment.start,

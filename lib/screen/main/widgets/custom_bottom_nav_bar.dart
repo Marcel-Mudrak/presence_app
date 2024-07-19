@@ -34,21 +34,15 @@ class CustomBottomNavBar extends StatelessWidget {
         },
         tabs: [
           GButton(
-            icon: state.currentPage == MainPage.profile
-                ? Icons.person
-                : Icons.person_outline,
+            icon: state.currentPage == MainPage.profile ? Icons.person : Icons.person_outline,
             text: 'Profile',
           ),
           GButton(
-            icon: state.currentPage == MainPage.home
-                ? Icons.home
-                : Icons.home_outlined,
+            icon: state.currentPage == MainPage.home ? Icons.home : Icons.home_outlined,
             text: 'Home',
           ),
           GButton(
-            icon: state.currentPage == MainPage.settings
-                ? Icons.settings
-                : Icons.settings_outlined,
+            icon: state.currentPage == MainPage.settings ? Icons.settings : Icons.settings_outlined,
             text: 'Settings',
           ),
         ],
