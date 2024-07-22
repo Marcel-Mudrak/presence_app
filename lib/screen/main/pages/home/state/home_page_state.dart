@@ -27,8 +27,7 @@ HomePageState useHomePageState() {
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
     todayLaterClasses: scheduleState.subjectsWithPeriodList[1].subjects
         .where(
-          (element) =>
-              element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
+          (element) => element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
         )
         .toList(),
   );

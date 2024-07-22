@@ -7,6 +7,7 @@ import 'package:presence_app/app/app_reporter.dart';
 import 'package:presence_app/app/app_routing.dart';
 import 'package:presence_app/app/state/firebase/firebase_state.dart';
 import 'package:presence_app/app/state/initialization/initialization_state.dart';
+import 'package:presence_app/app/state/nfc/nfc_state.dart';
 import 'package:presence_app/app/state/precache/image_precache_state.dart';
 import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/app/widget/app_global_error_dialog.dart';
@@ -39,8 +40,7 @@ class App extends HookWidget {
         child: HookBuilder(builder: (context) {
           useAsyncStreamSubscription<UiGlobalError>(
             uiErrors,
-            (error) async =>
-                _handleUiError(context, error, navigatorKey.currentState!),
+            (error) async => _handleUiError(context, error, navigatorKey.currentState!),
           );
           return child;
         }),
@@ -55,17 +55,12 @@ class App extends HookWidget {
     return MaterialApp(
       // theming
       theme: appTheme,
-      scrollBehavior: const MaterialScrollBehavior()
-          .copyWith(physics: const BouncingScrollPhysics()),
+      scrollBehavior: const MaterialScrollBehavior().copyWith(physics: const BouncingScrollPhysics()),
       // navigation
       navigatorKey: navigatorKey,
-      onGenerateInitialRoutes: (name) =>
-          [RouteConfig.generateInitialRoute(AppRouting.routes, name)],
-      onGenerateRoute: (settings) =>
-          RouteConfig.generateRoute(AppRouting.routes, settings),
-      navigatorObservers: [
-        RouteConfig.createNavigationObserver(AppRouting.routes)
-      ],
+      onGenerateInitialRoutes: (name) => [RouteConfig.generateInitialRoute(AppRouting.routes, name)],
+      onGenerateRoute: (settings) => RouteConfig.generateRoute(AppRouting.routes, settings),
+      navigatorObservers: [RouteConfig.createNavigationObserver(AppRouting.routes)],
       initialRoute: AppRouting.initialRoute,
       // localization
       localizationsDelegates: const [
@@ -87,12 +82,12 @@ class App extends HookWidget {
       FirebaseState: useFirebaseState,
       ImagePrecacheState: useImagePrecacheState,
       ScheduleState: useScheduleState,
+      NfcState: useNfcState,
       InitializationState: useInitializationState, // leave at the end
     };
   }
 
-  Future<void> _handleUiError(BuildContext context, UiGlobalError error,
-      NavigatorState navigator) async {
+  Future<void> _handleUiError(BuildContext context, UiGlobalError error, NavigatorState navigator) async {
     // skip debug-time assertion errors
     if (error.error is! AssertionError) {
       final route = DialogRoute<void>(
