@@ -12,6 +12,7 @@ class MainScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.button,
       body: Stack(
         children: [
           Container(
@@ -35,7 +36,9 @@ class MainScreenView extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(state: state),
+      bottomNavigationBar: SafeArea(
+        child: CustomBottomNavBar(state: state),
+      ),
     );
   }
 }
