@@ -191,7 +191,7 @@ class ProfilePageView extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               SearchTextInheritedWidget(
-                highlightColor: AppColors.flatOrange,
+                highlightColor: AppColors.secondaryBlue,
                 searchText: state.searchFieldState.value,
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 1000),
