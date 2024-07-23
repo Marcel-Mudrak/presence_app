@@ -1,3 +1,4 @@
+import 'package:presence_app/app/state/nfc/nfc_state.dart';
 import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/models/subjects_with_period/subjects_with_period.dart';
@@ -9,11 +10,14 @@ class HomePageState {
     required this.searchFieldState,
     required this.subjectsWithPeriodList,
     required this.todayLaterClasses,
+    required this.decodedMessage,
   });
 
   final FieldState searchFieldState;
   final List<SubjectsWithPeriod> subjectsWithPeriodList;
   final List<Subject> todayLaterClasses;
+
+  final String? decodedMessage;
 }
 
 HomePageState useHomePageState() {
@@ -21,6 +25,8 @@ HomePageState useHomePageState() {
   useEffect(() {}, [searchFieldState.value]);
 
   final scheduleState = useProvided<ScheduleState>();
+
+  final nfcState = useProvided<NfcState>();
 
   return HomePageState(
     searchFieldState: searchFieldState,
@@ -30,5 +36,6 @@ HomePageState useHomePageState() {
           (element) => element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
         )
         .toList(),
+    decodedMessage: nfcState.decodedMessage,
   );
 }

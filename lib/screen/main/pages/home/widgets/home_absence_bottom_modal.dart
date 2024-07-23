@@ -36,7 +36,9 @@ class HomeAbsenceBottomModal extends StatelessWidget {
           children: [
             Text(
               buttonCaption,
-              style: AppText.smaller.copyWith(fontWeight: FontWeight.w400),
+              style: AppText.smaller.copyWith(
+                fontWeight: FontWeight.w400,
+              ),
             ),
             const SizedBox(width: 6),
             Transform.rotate(

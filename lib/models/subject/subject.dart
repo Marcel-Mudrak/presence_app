@@ -17,6 +17,5 @@ class Subject with _$Subject {
     String? room,
   }) = _Subject;
 
-  factory Subject.fromJson(Map<String, dynamic> json) =>
-      _$SubjectFromJson(json);
+  factory Subject.fromJson(Map<String, dynamic> json) => _$SubjectFromJson(json);
 }

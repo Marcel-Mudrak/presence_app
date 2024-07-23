@@ -14,10 +14,13 @@ class HomePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildHomeContent(state);
+    return _buildHomeContent(state, context);
   }
 
-  Column _buildHomeContent(HomePageState state) {
+  Column _buildHomeContent(
+    HomePageState state,
+    BuildContext context,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -71,29 +74,141 @@ class HomePageView extends StatelessWidget {
           color: AppColors.niceWhite,
           thickness: 0,
         ),
-        const Text(
-          'Status',
-          style: AppText.smaller,
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () async => state.todayLaterClasses.isNotEmpty &&
+                          state.todayLaterClasses[0].date
+                              .subtract(
+                                const Duration(minutes: 15),
+                              )
+                              .isBefore(
+                                DateTime.now(),
+                              ) &&
+                          state.todayLaterClasses[0].dateEnd
+                              .add(
+                                const Duration(minutes: 15),
+                              )
+                              .isAfter(
+                                DateTime.now(),
+                              )
+                      ? _buildBottomModal(context)
+                      : ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            backgroundColor: AppColors.lightButton,
+                            content: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Nothing to register!',
+                                  style: AppText.smallHeader,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.lightBlue,
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Register presence',
+                          style: AppText.smaller.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.button,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        const Icon(
+                          Icons.person,
+                          color: AppColors.button,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                AbsenceButton(
+                  buttonCaption: 'Excused absence',
+                  caption: "If you can't make it.",
+                  icon: Icons.attach_file,
+                  shouldRotate: true,
+                  state: state,
+                ),
+              ],
+            ),
+          ],
         ),
-        const Text(
-          'Presence not registered yet.',
-          style: AppText.secondaryHeader,
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          'Please scan the NFC card in your classroom.',
-          style: AppText.smallest,
-        ),
-        const SizedBox(height: 16),
-        AbsenceButton(
-          buttonCaption: 'Excused absence',
-          caption: "If you can't make it.",
-          icon: Icons.attach_file,
-          shouldRotate: true,
-          state: state,
-        ),
-        const Spacer(),
       ],
+    );
+  }
+
+  Future<dynamic> _buildBottomModal(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha(196),
+      context: context,
+      builder: _buildBottomModalContent,
+    );
+  }
+
+  Widget _buildBottomModalContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.decelerate,
+        height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
+        width: double.infinity,
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: AppColors.gradientModal,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Register you presence for:',
+                    style: AppText.secondaryHeader,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    state.todayLaterClasses[0].courseName,
+                    style: AppText.smallerHeader,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 32),
+                  if (state.decodedMessage?.endsWith('en1') ?? false)
+                    const Text(
+                      'Presence registered',
+                      style: AppText.smaller,
+                    )
+                  else
+                    const Text(
+                      'Please scan the room NFC card to register presence',
+                      style: AppText.smaller,
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
