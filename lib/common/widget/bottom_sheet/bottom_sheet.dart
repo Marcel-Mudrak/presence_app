@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:presence_app/app/app_reporter.dart';
+import 'package:presence_app/app/state/nfc/nfc_state.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_text.dart';
+import 'package:utopia_arch/utopia_arch.dart';
 
-class CustomBottomSheet extends StatelessWidget {
+class CustomBottomSheet extends HookWidget {
   static Future<void> show(
     BuildContext context, {
     required String courseName,
@@ -13,10 +16,7 @@ class CustomBottomSheet extends StatelessWidget {
       await showModalBottomSheet<Widget>(
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (_) => CustomBottomSheet(
-          courseName: courseName,
-          isCardScanned: isCardScanned,
-        ),
+        builder: (_) => CustomBottomSheet(courseName: courseName),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -39,20 +39,30 @@ class CustomBottomSheet extends StatelessWidget {
   const CustomBottomSheet({
     super.key,
     required this.courseName,
-    required this.isCardScanned,
   });
 
   final String courseName;
-  final bool? isCardScanned;
 
   @override
   Widget build(BuildContext context) {
+    final nfcState = useProvided<NfcState>();
+    final isCardScannedState = useState(false);
+
+    useStreamSubscription(
+      nfcState.tagsStream,
+      (tag) {
+        appReporter.warning("Supertag: $tag");
+        isCardScannedState.value = true;
+      },
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         curve: Curves.decelerate,
-        height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
+        height: MediaQuery.of(context).size.height / 2 +
+            MediaQuery.of(context).viewInsets.bottom,
         width: double.infinity,
         child: DecoratedBox(
           decoration: const BoxDecoration(
@@ -79,7 +89,7 @@ class CustomBottomSheet extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
-                  if (isCardScanned ?? false)
+                  if (isCardScannedState.value)
                     const Text(
                       'Presence registered',
                       style: AppText.small,

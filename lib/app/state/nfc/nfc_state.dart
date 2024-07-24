@@ -17,17 +17,15 @@ NfcState useNfcState() {
   final isNfcAvailable = useState<bool>(false);
   useEffect(() async => isNfcAvailable.value = await NfcManager.instance.isAvailable(), [NfcManager.instance]);
 
-  //final nfcTag = useState<String?>(null);
   final tagsStreamController = useStreamController<String>();
   final tagsStream = useMemoized(() => tagsStreamController.stream.asBroadcastStream());
 
-  final state = useAutoComputedState(
+  useAutoComputedState(
     () async {
       if (isNfcAvailable.value) {
         await NfcManager.instance.startSession(
           onDiscovered: (tag) async {
-            final Ndef? ndef = Ndef.from(tag);
-
+            final ndef = Ndef.from(tag);
             if (ndef == null) {
               appReporter.warning('Tag is not compatible with NDEF');
               return;
@@ -36,8 +34,6 @@ NfcState useNfcState() {
                 final message = await ndef.read();
                 for (final record in message.records) {
                   final decodedMessage = String.fromCharCodes(record.payload);
-                  // appReporter.info(decodedMessage);
-                  // nfcTag.value = decodedMessage;
                   tagsStreamController.add(decodedMessage);
                 }
               }
@@ -47,13 +43,6 @@ NfcState useNfcState() {
       }
     },
     keys: [isNfcAvailable.value],
-  );
-
-  useStreamSubscription(
-    tagsStream,
-    (e) {
-      appReporter.info("Tag: $e");
-    },
   );
 
   return NfcState(
