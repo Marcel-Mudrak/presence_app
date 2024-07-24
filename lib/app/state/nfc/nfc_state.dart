@@ -6,16 +6,20 @@ class NfcState extends HasInitialized {
   const NfcState({
     required super.isInitialized,
     required this.decodedMessage,
+    required this.tagsStream,
   });
 
   final String? decodedMessage;
+  final Stream<String> tagsStream;
 }
 
 NfcState useNfcState() {
   final isNfcAvailable = useState<bool>(false);
   useEffect(() async => isNfcAvailable.value = await NfcManager.instance.isAvailable(), [NfcManager.instance]);
 
-  final nfcTag = useState<String?>(null);
+  //final nfcTag = useState<String?>(null);
+  final tagsStreamController = useStreamController<String>();
+  final tagsStream = useMemoized(() => tagsStreamController.stream.asBroadcastStream());
 
   final state = useAutoComputedState(
     () async {
