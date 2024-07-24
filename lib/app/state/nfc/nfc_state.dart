@@ -6,12 +6,10 @@ import 'package:utopia_arch/utopia_arch.dart';
 class NfcState extends HasInitialized {
   const NfcState({
     required super.isInitialized,
-    required this.decodedMessage,
     required this.tagsStream,
     required this.history,
   });
 
-  final String? decodedMessage;
   final IList<String> history;
   final Stream<String> tagsStream;
 }
@@ -52,7 +50,6 @@ NfcState useNfcState() {
 
   return NfcState(
     isInitialized: true,
-    decodedMessage: "xdd",
     history: historyState.value,
     tagsStream: tagsStream,
   );

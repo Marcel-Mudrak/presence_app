@@ -81,39 +81,18 @@ class HomePageView extends StatelessWidget {
         Row(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (state.currentSubjectPresence?.wasPresent ?? false)
+                  Text(
+                    'Presence registered!',
+                    style: AppText.small.copyWith(
+                      color: AppColors.niceWhite,
+                    ),
+                  ),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: state.onRegisterPresencePressed,
-                  // onTap: () async => state.todayLaterClasses.isNotEmpty &&
-                  //         state.todayLaterClasses[0].date
-                  //             .subtract(
-                  //               const Duration(minutes: 15),
-                  //             )
-                  //             .isBefore(
-                  //               DateTime.now(),
-                  //             ) &&
-                  //         state.todayLaterClasses[0].dateEnd
-                  //             .add(
-                  //               const Duration(minutes: 15),
-                  //             )
-                  //             .isAfter(
-                  //               DateTime.now(),
-                  //             )
-                  //     ? state.onRegisterPresencePressed
-                  //     : ScaffoldMessenger.of(context).showSnackBar(
-                  //         const SnackBar(
-                  //           backgroundColor: AppColors.lightButton,
-                  //           content: Row(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               Text(
-                  //                 'Nothing to register!',
-                  //                 style: AppText.smallHeader,
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),

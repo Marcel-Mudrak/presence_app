@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:presence_app/app/app_reporter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:presence_app/app/state/nfc/nfc_state.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
+import 'package:presence_app/common/constant/app_images.dart';
 import 'package:presence_app/common/constant/app_text.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
@@ -9,7 +10,6 @@ class CustomBottomSheet extends HookWidget {
   static Future<void> show(
     BuildContext context, {
     required String courseName,
-    required bool? isCardScanned,
     required bool isScanPossible,
   }) async {
     if (isScanPossible) {
@@ -46,14 +46,18 @@ class CustomBottomSheet extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final nfcState = useProvided<NfcState>();
-    //final czyZostalaKiedykolwiekZeskanowana = nfcState.history.contains('tag1');
+    //final wasCardScannedBefore = nfcState.history.contains('tag1');
     final isCardScannedState = useState(false);
 
     useStreamSubscription(
       nfcState.tagsStream,
       (tag) {
-        appReporter.warning("Supertag: $tag");
-        isCardScannedState.value = true;
+        // appReporter.info(tag);
+        if (tag.endsWith('en1')) isCardScannedState.value = true;
+        Future.delayed(
+          const Duration(milliseconds: 1500),
+          () => Navigator.pop(context),
+        );
       },
     );
 
@@ -62,8 +66,7 @@ class CustomBottomSheet extends HookWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         curve: Curves.decelerate,
-        height: MediaQuery.of(context).size.height / 2 +
-            MediaQuery.of(context).viewInsets.bottom,
+        height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
         width: double.infinity,
         child: DecoratedBox(
           decoration: const BoxDecoration(
@@ -75,10 +78,24 @@ class CustomBottomSheet extends HookWidget {
           ),
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: SizedBox(
+                      width: 70,
+                      height: 4,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: AppColors.niceWhite.withAlpha(128),
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   const Text(
                     'Register you presence for:',
                     style: AppText.secondaryHeader,
@@ -91,16 +108,34 @@ class CustomBottomSheet extends HookWidget {
                   ),
                   const SizedBox(height: 32),
                   if (isCardScannedState.value)
-                    const Text(
-                      'Presence registered',
-                      style: AppText.small,
-                      textAlign: TextAlign.center,
+                    Column(
+                      children: [
+                        const Text(
+                          'Presence registered!',
+                          style: AppText.small,
+                          textAlign: TextAlign.center,
+                        ),
+                        Lottie.asset(
+                          AppImages.checkmarkAnimation,
+                          frameRate: const FrameRate(60),
+                        ),
+                      ],
                     )
                   else
-                    const Text(
-                      'Please scan the room NFC card to register presence',
-                      style: AppText.small,
-                      textAlign: TextAlign.center,
+                    Column(
+                      children: [
+                        const Text(
+                          'Please scan the room NFC card to register presence',
+                          style: AppText.small,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        Lottie.asset(
+                          AppImages.scanPhoneAnimation,
+                          frameRate: const FrameRate(60),
+                          repeat: false,
+                        ),
+                      ],
                     ),
                 ],
               ),
