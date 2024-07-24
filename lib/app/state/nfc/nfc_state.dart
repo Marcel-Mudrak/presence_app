@@ -17,27 +17,44 @@ NfcState useNfcState() {
 
   final nfcTag = useState<String?>(null);
 
-  final state = useAutoComputedState(() async {
-    if (isNfcAvailable.value) {
-      await NfcManager.instance.startSession(
-        onDiscovered: (tag) async {
-          final Ndef? ndef = Ndef.from(tag);
+  final state = useAutoComputedState(
+    () async {
+      if (isNfcAvailable.value) {
+        await NfcManager.instance.startSession(
+          onDiscovered: (tag) async {
+            final Ndef? ndef = Ndef.from(tag);
 
-          if (ndef == null) {
-            appReporter.warning('Tag is not compatible with NDEF');
-            return;
-          } else {
-            final message = await ndef.read();
-            for (final record in message.records) {
-              final decodedMessage = String.fromCharCodes(record.payload);
-              appReporter.info(decodedMessage);
-              nfcTag.value = decodedMessage;
+            if (ndef == null) {
+              appReporter.warning('Tag is not compatible with NDEF');
+              return;
+            } else {
+              if (ndef.cachedMessage != null) {
+                final message = await ndef.read();
+                for (final record in message.records) {
+                  final decodedMessage = String.fromCharCodes(record.payload);
+                  // appReporter.info(decodedMessage);
+                  // nfcTag.value = decodedMessage;
+                  tagsStreamController.add(decodedMessage);
+                }
+              }
             }
-          }
-        },
-      );
-    }
-  }, keys: [isNfcAvailable.value]);
+          },
+        );
+      }
+    },
+    keys: [isNfcAvailable.value],
+  );
 
-  return NfcState(isInitialized: true, decodedMessage: nfcTag.value);
+  useStreamSubscription(
+    tagsStream,
+    (e) {
+      appReporter.info("Tag: $e");
+    },
+  );
+
+  return NfcState(
+    isInitialized: true,
+    decodedMessage: "xdd",
+    tagsStream: tagsStream,
+  );
 }

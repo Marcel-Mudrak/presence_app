@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presence_app/common/widget/bottom_sheet/bottom_sheet.dart';
 import 'package:presence_app/screen/main/pages/home/state/home_page_state.dart';
 import 'package:presence_app/screen/main/pages/home/view/home_page_view.dart';
 import 'package:utopia_arch/utopia_arch.dart';
@@ -11,7 +12,14 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useHomePageState();
+    final state = useHomePageState(
+      showNfcBottomSheet: (courseName, isCardScanned, isScanPossible) async => CustomBottomSheet.show(
+        context,
+        courseName: courseName,
+        isCardScanned: isCardScanned,
+        isScanPossible: isScanPossible,
+      ),
+    );
     return HomePageView(state: state);
   }
 }

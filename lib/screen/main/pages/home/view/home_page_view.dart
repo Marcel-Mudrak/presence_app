@@ -8,7 +8,10 @@ import 'package:presence_app/screen/main/pages/home/widgets/absence_button.dart'
 import 'package:presence_app/screen/main/pages/home/widgets/subject_item.dart';
 
 class HomePageView extends StatelessWidget {
-  const HomePageView({required this.state});
+  const HomePageView({
+    super.key,
+    required this.state,
+  });
 
   final HomePageState state;
 
@@ -80,36 +83,37 @@ class HomePageView extends StatelessWidget {
             Column(
               children: [
                 GestureDetector(
-                  onTap: () async => state.todayLaterClasses.isNotEmpty &&
-                          state.todayLaterClasses[0].date
-                              .subtract(
-                                const Duration(minutes: 15),
-                              )
-                              .isBefore(
-                                DateTime.now(),
-                              ) &&
-                          state.todayLaterClasses[0].dateEnd
-                              .add(
-                                const Duration(minutes: 15),
-                              )
-                              .isAfter(
-                                DateTime.now(),
-                              )
-                      ? _buildBottomModal(context)
-                      : ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            backgroundColor: AppColors.lightButton,
-                            content: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Nothing to register!',
-                                  style: AppText.smallHeader,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                  onTap: state.onRegisterPresencePressed,
+                  // onTap: () async => state.todayLaterClasses.isNotEmpty &&
+                  //         state.todayLaterClasses[0].date
+                  //             .subtract(
+                  //               const Duration(minutes: 15),
+                  //             )
+                  //             .isBefore(
+                  //               DateTime.now(),
+                  //             ) &&
+                  //         state.todayLaterClasses[0].dateEnd
+                  //             .add(
+                  //               const Duration(minutes: 15),
+                  //             )
+                  //             .isAfter(
+                  //               DateTime.now(),
+                  //             )
+                  //     ? state.onRegisterPresencePressed
+                  //     : ScaffoldMessenger.of(context).showSnackBar(
+                  //         const SnackBar(
+                  //           backgroundColor: AppColors.lightButton,
+                  //           content: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.center,
+                  //             children: [
+                  //               Text(
+                  //                 'Nothing to register!',
+                  //                 style: AppText.smallHeader,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
@@ -147,68 +151,6 @@ class HomePageView extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-
-  Future<dynamic> _buildBottomModal(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withAlpha(196),
-      context: context,
-      builder: _buildBottomModalContent,
-    );
-  }
-
-  Widget _buildBottomModalContent(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        curve: Curves.decelerate,
-        height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
-        width: double.infinity,
-        child: DecoratedBox(
-          decoration: const BoxDecoration(
-            gradient: AppColors.gradientModal,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32),
-              topRight: Radius.circular(32),
-            ),
-          ),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Register you presence for:',
-                    style: AppText.secondaryHeader,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    state.todayLaterClasses[0].courseName,
-                    style: AppText.smallerHeader,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 32),
-                  if (state.decodedMessage?.endsWith('en1') ?? false)
-                    const Text(
-                      'Presence registered',
-                      style: AppText.smaller,
-                    )
-                  else
-                    const Text(
-                      'Please scan the room NFC card to register presence',
-                      style: AppText.smaller,
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
