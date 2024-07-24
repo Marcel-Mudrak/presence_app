@@ -66,7 +66,6 @@ class CustomBottomSheet extends HookWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         curve: Curves.decelerate,
-        height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
         width: double.infinity,
         child: DecoratedBox(
           decoration: const BoxDecoration(
@@ -106,7 +105,7 @@ class CustomBottomSheet extends HookWidget {
                     style: AppText.smallerHeader,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                   if (isCardScannedState.value)
                     Column(
                       children: [
@@ -137,6 +136,7 @@ class CustomBottomSheet extends HookWidget {
                         ),
                       ],
                     ),
+                  const SizedBox(height: 8),
                 ],
               ),
             ),
