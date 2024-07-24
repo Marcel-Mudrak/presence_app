@@ -46,6 +46,7 @@ class CustomBottomSheet extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final nfcState = useProvided<NfcState>();
+    //final czyZostalaKiedykolwiekZeskanowana = nfcState.history.contains('tag1');
     final isCardScannedState = useState(false);
 
     useStreamSubscription(

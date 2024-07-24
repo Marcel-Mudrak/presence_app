@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:presence_app/app/app_reporter.dart';
 import 'package:utopia_arch/utopia_arch.dart';
@@ -7,9 +8,11 @@ class NfcState extends HasInitialized {
     required super.isInitialized,
     required this.decodedMessage,
     required this.tagsStream,
+    required this.history,
   });
 
   final String? decodedMessage;
+  final IList<String> history;
   final Stream<String> tagsStream;
 }
 
@@ -19,6 +22,7 @@ NfcState useNfcState() {
 
   final tagsStreamController = useStreamController<String>();
   final tagsStream = useMemoized(() => tagsStreamController.stream.asBroadcastStream());
+  final historyState = useState<IList<String>>(IList());
 
   useAutoComputedState(
     () async {
@@ -34,6 +38,7 @@ NfcState useNfcState() {
                 final message = await ndef.read();
                 for (final record in message.records) {
                   final decodedMessage = String.fromCharCodes(record.payload);
+                  historyState.value = historyState.value.add(decodedMessage);
                   tagsStreamController.add(decodedMessage);
                 }
               }
@@ -48,6 +53,7 @@ NfcState useNfcState() {
   return NfcState(
     isInitialized: true,
     decodedMessage: "xdd",
+    history: historyState.value,
     tagsStream: tagsStream,
   );
 }
