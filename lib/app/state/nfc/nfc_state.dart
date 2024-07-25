@@ -15,12 +15,12 @@ class NfcState extends HasInitialized {
 }
 
 NfcState useNfcState() {
-  final isNfcAvailable = useState<bool>(false);
-  useEffect(() async => isNfcAvailable.value = await NfcManager.instance.isAvailable(), [NfcManager.instance]);
-
   final tagsStreamController = useStreamController<String>();
   final tagsStream = useMemoized(() => tagsStreamController.stream.asBroadcastStream());
   final historyState = useState<IList<String>>(IList());
+
+  final isNfcAvailable = useState<bool>(false);
+  useEffect(() async => isNfcAvailable.value = await NfcManager.instance.isAvailable(), [NfcManager.instance]);
 
   useAutoComputedState(
     () async {

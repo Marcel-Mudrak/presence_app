@@ -72,14 +72,18 @@ HomePageState useHomePageState({
     return null;
   }
 
+  void onRegisterPresencePressed() {
+    showNfcBottomSheet(
+      todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : 'Something went wrong',
+      isClassNow,
+    );
+  }
+
   return HomePageState(
     searchFieldState: searchFieldState,
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
     todayLaterClasses: todayLaterClasses,
     currentSubjectPresence: registerPresence(isPresent: true),
-    onRegisterPresencePressed: () => showNfcBottomSheet(
-      todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : '',
-      isClassNow,
-    ),
+    onRegisterPresencePressed: onRegisterPresencePressed,
   );
 }

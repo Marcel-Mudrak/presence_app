@@ -83,13 +83,13 @@ class HomePageView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (state.currentSubjectPresence?.wasPresent ?? false)
-                  Text(
-                    'Presence registered!',
-                    style: AppText.small.copyWith(
-                      color: AppColors.niceWhite,
-                    ),
-                  ),
+                // if (state.currentSubjectPresence?.wasPresent ?? false)
+                //   Text(
+                //     'Presence registered!',
+                //     style: AppText.small.copyWith(
+                //       color: AppColors.niceWhite,
+                //     ),
+                //   ),
                 const SizedBox(height: 8),
                 GestureDetector(
                   onTap: state.onRegisterPresencePressed,
