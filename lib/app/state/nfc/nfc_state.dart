@@ -48,6 +48,8 @@ NfcState useNfcState() {
     keys: [isNfcAvailable.value],
   );
 
+  useEffect(() => () async => NfcManager.instance.stopSession());
+
   return NfcState(
     isInitialized: true,
     history: historyState.value,

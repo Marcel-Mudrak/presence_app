@@ -33,6 +33,7 @@ class HomeAbsenceBottomModal extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(12),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               buttonCaption,

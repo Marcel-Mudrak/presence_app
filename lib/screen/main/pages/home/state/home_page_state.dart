@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:presence_app/app/app_reporter.dart';
+import 'package:presence_app/app/state/nfc/nfc_state.dart';
 import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/models/presence/presence.dart';
 import 'package:presence_app/models/subject/subject.dart';
@@ -12,18 +16,20 @@ class HomePageState {
     required this.todayLaterClasses,
     required this.onRegisterPresencePressed,
     required this.currentSubjectPresence,
+    required this.isCardScanned,
   });
 
   final FieldState searchFieldState;
   final List<SubjectsWithPeriod> subjectsWithPeriodList;
   final List<Subject> todayLaterClasses;
   final Presence? currentSubjectPresence;
+  final bool isCardScanned;
 
   final void Function() onRegisterPresencePressed;
 }
 
 HomePageState useHomePageState({
-  required void Function(
+  required Future<bool?> Function(
     String courseName,
     bool isScanPossible,
   ) showNfcBottomSheet,
@@ -72,12 +78,39 @@ HomePageState useHomePageState({
     return null;
   }
 
-  void onRegisterPresencePressed() {
-    showNfcBottomSheet(
-      todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : 'Something went wrong',
-      isClassNow,
-    );
+  final isScanningEnabled = useState(false);
+  final isCardScannedState = useState(false);
+
+  Future<void> onRegisterPresencePressed() async {
+    if (Platform.isIOS) {
+      isScanningEnabled.value = true;
+    } else {
+      final result = await showNfcBottomSheet(
+        todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : 'Something went wrong',
+        isClassNow,
+      );
+      if (result ?? false) {
+        isCardScannedState.value = true;
+      }
+    }
   }
+
+  useIf(
+    isScanningEnabled.value,
+    () {
+      final nfcState = useNfcState();
+
+      useStreamSubscription(
+        nfcState.tagsStream,
+        (tag) {
+          // ...
+          appReporter.info(tag);
+          if (tag.endsWith('en1')) isCardScannedState.value = true;
+          isScanningEnabled.value = false;
+        },
+      );
+    },
+  );
 
   return HomePageState(
     searchFieldState: searchFieldState,
@@ -85,5 +118,6 @@ HomePageState useHomePageState({
     todayLaterClasses: todayLaterClasses,
     currentSubjectPresence: registerPresence(isPresent: true),
     onRegisterPresencePressed: onRegisterPresencePressed,
+    isCardScanned: isCardScannedState.value,
   );
 }

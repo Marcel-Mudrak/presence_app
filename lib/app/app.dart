@@ -7,7 +7,6 @@ import 'package:presence_app/app/app_reporter.dart';
 import 'package:presence_app/app/app_routing.dart';
 import 'package:presence_app/app/state/firebase/firebase_state.dart';
 import 'package:presence_app/app/state/initialization/initialization_state.dart';
-import 'package:presence_app/app/state/nfc/nfc_state.dart';
 import 'package:presence_app/app/state/precache/image_precache_state.dart';
 import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/app/widget/app_global_error_dialog.dart';
@@ -82,7 +81,7 @@ class App extends HookWidget {
       FirebaseState: useFirebaseState,
       ImagePrecacheState: useImagePrecacheState,
       ScheduleState: useScheduleState,
-      NfcState: useNfcState,
+      //NfcState: useNfcState,
       InitializationState: useInitializationState, // leave at the end
     };
   }

@@ -7,13 +7,13 @@ import 'package:presence_app/common/constant/app_text.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class CustomBottomSheet extends HookWidget {
-  static Future<void> show(
+  static Future<bool?> show(
     BuildContext context, {
     required String courseName,
     required bool isScanPossible,
   }) async {
     if (isScanPossible) {
-      await showModalBottomSheet<Widget>(
+      return showModalBottomSheet<bool?>(
         backgroundColor: Colors.transparent,
         context: context,
         builder: (_) => CustomBottomSheet(courseName: courseName),
@@ -34,6 +34,7 @@ class CustomBottomSheet extends HookWidget {
         ),
       );
     }
+    return null;
   }
 
   const CustomBottomSheet({
@@ -45,7 +46,7 @@ class CustomBottomSheet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nfcState = useProvided<NfcState>();
+    final nfcState = useNfcState();
     //final wasCardScannedBefore = nfcState.history.contains('tag1');
     final isCardScannedState = useState(false);
 
@@ -56,7 +57,7 @@ class CustomBottomSheet extends HookWidget {
         if (tag.endsWith('en1')) isCardScannedState.value = true;
         Future.delayed(
           const Duration(milliseconds: 1500),
-          () => Navigator.pop(context),
+          () => Navigator.pop(context, isCardScannedState.value),
         );
       },
     );
