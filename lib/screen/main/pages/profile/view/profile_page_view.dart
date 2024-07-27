@@ -126,16 +126,19 @@ class ProfilePageView extends StatelessWidget {
     );
   }
 
-  SizedBox _buildBottomModalContent(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
-      width: double.infinity,
-      child: const DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: AppColors.gradientPrimary,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(32),
-            topRight: Radius.circular(32),
+  Widget _buildBottomModalContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
+        width: double.infinity,
+        child: const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: AppColors.gradientModal,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
+            ),
           ),
         ),
       ),
@@ -188,7 +191,7 @@ class ProfilePageView extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               SearchTextInheritedWidget(
-                highlightColor: AppColors.flatOrange,
+                highlightColor: AppColors.secondaryBlue,
                 searchText: state.searchFieldState.value,
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 1000),

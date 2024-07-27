@@ -20,16 +20,11 @@ class AbsenceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        HomeAbsenceBottomModal(
-          state: state,
-          buttonCaption: buttonCaption,
-          shouldRotate: shouldRotate,
-          icon: icon,
-        ),
-      ],
+    return HomeAbsenceBottomModal(
+      state: state,
+      buttonCaption: buttonCaption,
+      shouldRotate: shouldRotate,
+      icon: icon,
     );
   }
 }

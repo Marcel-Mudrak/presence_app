@@ -34,6 +34,8 @@ dependencies:
   # misc utils
   intl: ^0.18.0
   search_highlight_text: ^1.0.0+2
+  nfc_manager: ^3.5.0
+  lottie: ^3.0.0
 
   # web
   chaleno: ^0.0.7
@@ -68,6 +70,8 @@ flutter:
 
   assets:
     - assets/img/uek_logo.png
+    - assets/lottie/checkmark_white.json
+    - assets/lottie/scan_phone.json
 
   fonts:
     - family: Poppins

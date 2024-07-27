@@ -7,6 +7,7 @@ class AppColors {
   static const secondary = Color(0xFFB87953);
 
   static const niceBlue = Color(0xFFA2C2C2);
+  static const lightBlue = Color(0xFFCBDADA);
   static const whiteBlue = Color(0xFFBCC8C3);
   static const niceWhite = Color(0xFFF1F1F1);
 
@@ -16,6 +17,7 @@ class AppColors {
   static const washedFlatOrangeDarker = Color(0xFFAE6333);
 
   static const secondaryBlue = Color(0xFF6E8E84);
+  static const lightButton = Color(0xFF184159);
   static const button = Color(0xFF092635);
 
   static const error = Color(0xFFFF2B2B);
@@ -26,6 +28,15 @@ class AppColors {
     colors: [
       button,
       secondaryBlue,
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const gradientModal = LinearGradient(
+    colors: [
+      button,
+      lightButton,
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

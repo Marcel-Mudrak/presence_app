@@ -12,6 +12,7 @@ InitializationState useInitializationState() {
     useProvided<FirebaseState>(),
     useProvided<ImagePrecacheState>(),
     useProvided<ScheduleState>(),
+    //useProvided<NfcState>(),
   ];
 
   return InitializationState(isInitialized: HasInitialized.all(states));
