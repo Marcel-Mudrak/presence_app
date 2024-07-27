@@ -108,12 +108,12 @@ class HomePageView extends StatelessWidget {
                           if (state.isCardScanned)
                             Text(
                               'Presence Registered',
-                              style: AppText.smallHeader.copyWith(color: Colors.green),
+                              style: AppText.smallHeader.copyWith(color: Colors.green.shade300),
                             )
                           else if (!state.isCardScanned && state.todayLaterClasses.isNotEmpty)
                             Text(
                               'Presence not registered yet',
-                              style: AppText.smallHeader.copyWith(color: Colors.yellow),
+                              style: AppText.smallHeader.copyWith(color: Colors.yellow.shade300),
                             )
                           else
                             const Text(
