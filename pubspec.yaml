@@ -36,6 +36,7 @@ dependencies:
   search_highlight_text: ^1.0.0+2
   nfc_manager: ^3.5.0
   lottie: ^3.0.0
+  loading_animation_widget: ^1.2.1
 
   # web
   chaleno: ^0.0.7

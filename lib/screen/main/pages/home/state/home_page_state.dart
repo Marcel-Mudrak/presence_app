@@ -82,11 +82,11 @@ HomePageState useHomePageState({
   final isCardScannedState = useState(false);
 
   Future<void> onRegisterPresencePressed() async {
-    if (Platform.isIOS) {
+    if (Platform.isIOS && todayLaterClasses.isNotEmpty && !isCardScannedState.value) {
       isScanningEnabled.value = true;
-    } else {
+    } else if (!isCardScannedState.value) {
       final result = await showNfcBottomSheet(
-        todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : 'Something went wrong',
+        todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : 'Empty',
         isClassNow,
       );
       if (result ?? false) {
