@@ -6,7 +6,6 @@ import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/models/presence/presence.dart';
 import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/models/subjects_with_period/subjects_with_period.dart';
-import 'package:presence_app/util/extension/date_extensions.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class HomePageState {
@@ -39,9 +38,16 @@ HomePageState useHomePageState({
 
   final scheduleState = useProvided<ScheduleState>();
 
+  // final todayLaterClasses = scheduleState.subjectsWithPeriodList[1].subjects
+  //     .where(
+  //       (element) => element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
+  //     )
+  //     .toList();
+
+  // TODO delete (debug)
   final todayLaterClasses = scheduleState.subjectsWithPeriodList[1].subjects
       .where(
-        (element) => element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
+        (element) => element.dateEnd.isBefore(DateTime.now()),
       )
       .toList();
 
@@ -105,8 +111,10 @@ HomePageState useHomePageState({
         (tag) {
           // ...
           appReporter.info(tag);
-          if (tag.endsWith('en1')) isCardScannedState.value = true;
-          isScanningEnabled.value = false;
+          if (tag.endsWith('en1')) {
+            isCardScannedState.value = true;
+            isScanningEnabled.value = false;
+          }
         },
       );
     },
