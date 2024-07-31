@@ -6,7 +6,7 @@ import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
 import 'package:presence_app/models/presence/presence.dart';
 import 'package:presence_app/models/subject/subject.dart';
 import 'package:presence_app/models/subjects_with_period/subjects_with_period.dart';
-import 'package:presence_app/util/extension/date_extensions.dart';
+import 'package:presence_app/service/firebase/firebase_service.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class HomePageState {
@@ -15,65 +15,79 @@ class HomePageState {
     required this.subjectsWithPeriodList,
     required this.todayLaterClasses,
     required this.onRegisterPresencePressed,
-    required this.currentSubjectPresence,
     required this.isCardScanned,
   });
 
   final FieldState searchFieldState;
   final List<SubjectsWithPeriod> subjectsWithPeriodList;
   final List<Subject> todayLaterClasses;
-  final Presence? currentSubjectPresence;
   final bool isCardScanned;
 
-  final void Function() onRegisterPresencePressed;
+  final Future<void> Function() onRegisterPresencePressed;
 }
 
 HomePageState useHomePageState({
   required Future<bool?> Function(
     String courseName,
     bool isScanPossible,
+    Future<Presence?> Function({required bool isPresent}) registerPresence,
   ) showNfcBottomSheet,
 }) {
   final searchFieldState = useFieldState();
   useEffect(() {}, [searchFieldState.value]);
 
   final scheduleState = useProvided<ScheduleState>();
+  final firebaseService = useInjected<FirebaseService>();
 
+  // final todayLaterClasses = scheduleState.subjectsWithPeriodList[1].subjects
+  //     .where(
+  //       (element) => element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
+  //     )
+  //     .toList();
+
+  // TODO delete (debug)
   final todayLaterClasses = scheduleState.subjectsWithPeriodList[1].subjects
       .where(
-        (element) => element.date.isToday && element.dateEnd.isAfter(DateTime.now()),
+        (element) => element.dateEnd.isBefore(DateTime.now()),
       )
       .toList();
 
-  final bool isClassNow = todayLaterClasses.isNotEmpty &&
-      todayLaterClasses[0]
-          .date
-          .subtract(
-            const Duration(minutes: 15),
-          )
-          .isBefore(
-            DateTime.now(),
-          ) &&
-      todayLaterClasses[0]
-          .dateEnd
-          .add(
-            const Duration(minutes: 15),
-          )
-          .isAfter(
-            DateTime.now(),
-          );
+  // final bool isClassNow = todayLaterClasses.isNotEmpty &&
+  //     todayLaterClasses[0]
+  //         .date
+  //         .subtract(
+  //           const Duration(minutes: 15),
+  //         )
+  //         .isBefore(
+  //           DateTime.now(),
+  //         ) &&
+  //     todayLaterClasses[0]
+  //         .dateEnd
+  //         .add(
+  //           const Duration(minutes: 15),
+  //         )
+  //         .isAfter(
+  //           DateTime.now(),
+  //         );
 
-  Presence? registerPresence({required bool isPresent}) {
+  // TODO delete (debug)
+  const bool isClassNow = true;
+
+  Future<Presence?> registerPresence({required bool isPresent}) async {
     if (isClassNow && isPresent) {
-      return Presence(
+      final presence = Presence(
         subject: todayLaterClasses[0],
         wasPresent: true,
       );
+      await firebaseService.addPresence(presence, 'user1');
+      return presence;
     } else if (isClassNow && !isPresent) {
-      return Presence(
+      final presence = Presence(
         subject: todayLaterClasses[0],
         wasPresent: false,
       );
+      await firebaseService.addPresence(presence, 'user1');
+      return presence;
     }
     return null;
   }
@@ -88,6 +102,7 @@ HomePageState useHomePageState({
       final result = await showNfcBottomSheet(
         todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : 'Empty',
         isClassNow,
+        registerPresence,
       );
       if (result ?? false) {
         isCardScannedState.value = true;
@@ -102,11 +117,14 @@ HomePageState useHomePageState({
 
       useStreamSubscription(
         nfcState.tagsStream,
-        (tag) {
+        (tag) async {
           // ...
           appReporter.info(tag);
-          if (tag.endsWith('en1')) isCardScannedState.value = true;
-          isScanningEnabled.value = false;
+          if (tag.endsWith('en1')) {
+            isCardScannedState.value = true;
+            isScanningEnabled.value = false;
+            await registerPresence(isPresent: true);
+          }
         },
       );
     },
@@ -116,8 +134,7 @@ HomePageState useHomePageState({
     searchFieldState: searchFieldState,
     subjectsWithPeriodList: scheduleState.subjectsWithPeriodList,
     todayLaterClasses: todayLaterClasses,
-    currentSubjectPresence: registerPresence(isPresent: true),
-    onRegisterPresencePressed: onRegisterPresencePressed,
     isCardScanned: isCardScannedState.value,
+    onRegisterPresencePressed: onRegisterPresencePressed,
   );
 }

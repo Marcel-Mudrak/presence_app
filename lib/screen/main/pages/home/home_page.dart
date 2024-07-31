@@ -13,10 +13,11 @@ class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final state = useHomePageState(
-      showNfcBottomSheet: (courseName, isScanPossible) async => CustomBottomSheet.show(
+      showNfcBottomSheet: (courseName, isScanPossible, registerPresence) async => CustomBottomSheet.show(
         context,
         courseName: courseName,
         isScanPossible: isScanPossible,
+        registerPresence: registerPresence,
       ),
     );
     return HomePageView(state: state);

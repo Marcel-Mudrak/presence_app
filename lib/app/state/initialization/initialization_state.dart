@@ -1,3 +1,4 @@
+import 'package:presence_app/app/state/auth/auth_state.dart';
 import 'package:presence_app/app/state/firebase/firebase_state.dart';
 import 'package:presence_app/app/state/precache/image_precache_state.dart';
 import 'package:presence_app/app/state/schedule_state/schedule_state.dart';
@@ -12,7 +13,7 @@ InitializationState useInitializationState() {
     useProvided<FirebaseState>(),
     useProvided<ImagePrecacheState>(),
     useProvided<ScheduleState>(),
-    //useProvided<NfcState>(),
+    useProvided<AuthState>(),
   ];
 
   return InitializationState(isInitialized: HasInitialized.all(states));

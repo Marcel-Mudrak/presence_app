@@ -20,7 +20,7 @@ class SplashScreen extends HookWidget {
       }
     }, [initializationState.isInitialized]);
 
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: AppColors.gradientPrimary,
       ),
