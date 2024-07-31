@@ -4,6 +4,7 @@ import 'package:presence_app/app/state/nfc/nfc_state.dart';
 import 'package:presence_app/common/constant/app_colors.dart';
 import 'package:presence_app/common/constant/app_images.dart';
 import 'package:presence_app/common/constant/app_text.dart';
+import 'package:presence_app/models/presence/presence.dart';
 import 'package:utopia_arch/utopia_arch.dart';
 
 class CustomBottomSheet extends HookWidget {
@@ -11,12 +12,16 @@ class CustomBottomSheet extends HookWidget {
     BuildContext context, {
     required String courseName,
     required bool isScanPossible,
+    required Future<Presence?> Function({required bool isPresent}) registerPresence,
   }) async {
     if (isScanPossible) {
       return showModalBottomSheet<bool?>(
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (_) => CustomBottomSheet(courseName: courseName),
+        builder: (_) => CustomBottomSheet(
+          courseName: courseName,
+          registerPresence: registerPresence,
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -40,25 +45,28 @@ class CustomBottomSheet extends HookWidget {
   const CustomBottomSheet({
     super.key,
     required this.courseName,
+    required this.registerPresence,
   });
 
   final String courseName;
+  final Future<Presence?> Function({required bool isPresent}) registerPresence;
 
   @override
   Widget build(BuildContext context) {
     final nfcState = useNfcState();
-    //final wasCardScannedBefore = nfcState.history.contains('tag1');
     final isCardScannedState = useState(false);
 
     useStreamSubscription(
       nfcState.tagsStream,
-      (tag) {
-        // appReporter.info(tag);
-        if (tag.endsWith('en1')) isCardScannedState.value = true;
-        Future.delayed(
-          const Duration(milliseconds: 1500),
-          () => Navigator.pop(context, isCardScannedState.value),
-        );
+      (tag) async {
+        if (tag.endsWith('en1')) {
+          isCardScannedState.value = true;
+          await registerPresence(isPresent: true);
+          Future.delayed(
+            const Duration(milliseconds: 1500),
+            () => Navigator.pop(context, isCardScannedState.value),
+          );
+        }
       },
     );
 

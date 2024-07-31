@@ -30,6 +30,7 @@ HomePageState useHomePageState({
   required Future<bool?> Function(
     String courseName,
     bool isScanPossible,
+    Future<Presence?> Function({required bool isPresent}) registerPresence,
   ) showNfcBottomSheet,
 }) {
   final searchFieldState = useFieldState();
@@ -95,16 +96,13 @@ HomePageState useHomePageState({
   final isCardScannedState = useState(false);
 
   Future<void> onRegisterPresencePressed() async {
-    if (Platform.isIOS &&
-        todayLaterClasses.isNotEmpty &&
-        !isCardScannedState.value) {
+    if (Platform.isIOS && todayLaterClasses.isNotEmpty && !isCardScannedState.value) {
       isScanningEnabled.value = true;
     } else if (!isCardScannedState.value) {
       final result = await showNfcBottomSheet(
-        todayLaterClasses.isNotEmpty
-            ? todayLaterClasses[0].courseName
-            : 'Empty',
+        todayLaterClasses.isNotEmpty ? todayLaterClasses[0].courseName : 'Empty',
         isClassNow,
+        registerPresence,
       );
       if (result ?? false) {
         isCardScannedState.value = true;
