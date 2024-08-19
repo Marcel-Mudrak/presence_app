@@ -130,7 +130,8 @@ class ProfilePageView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).viewInsets.bottom,
+        height: MediaQuery.of(context).size.height / 2 +
+            MediaQuery.of(context).viewInsets.bottom,
         width: double.infinity,
         child: const DecoratedBox(
           decoration: BoxDecoration(
@@ -152,7 +153,9 @@ class ProfilePageView extends StatelessWidget {
             ? state.upcomingClasses.length
             : state.upcomingClasses
                 .where(
-                  (element) => element.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase()),
+                  (element) => element.courseName
+                      .toLowerCase()
+                      .contains(state.searchFieldState.value.toLowerCase()),
                 )
                 .length,
         itemBuilder: (context, index) => _buildSubjectItem(
@@ -161,7 +164,9 @@ class ProfilePageView extends StatelessWidget {
               ? state.upcomingClasses
               : state.upcomingClasses
                   .where(
-                    (element) => element.courseName.toLowerCase().contains(state.searchFieldState.value.toLowerCase()),
+                    (element) => element.courseName
+                        .toLowerCase()
+                        .contains(state.searchFieldState.value.toLowerCase()),
                   )
                   .toList(),
         ),
